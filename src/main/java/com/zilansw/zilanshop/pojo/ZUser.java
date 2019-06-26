@@ -1,8 +1,13 @@
 package com.zilansw.zilanshop.pojo;
 
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+@TableName("z_user")
 public class ZUser {
 
+  @TableId("uid")
   private long uid;
   private String username;
   private String password;

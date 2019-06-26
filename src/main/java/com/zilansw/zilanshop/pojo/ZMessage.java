@@ -1,8 +1,12 @@
 package com.zilansw.zilanshop.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+@TableName("z_message")
 public class ZMessage {
 
+  @TableId("mid")
   private long mid;
   private java.sql.Timestamp createTime;
   private String title;

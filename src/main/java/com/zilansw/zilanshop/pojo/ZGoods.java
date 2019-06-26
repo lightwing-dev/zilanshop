@@ -1,8 +1,12 @@
 package com.zilansw.zilanshop.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+@TableName("z_goods")
 public class ZGoods {
 
+  @TableId("gid")
   private long gid;
   private long gtypeid;
   private String gname;

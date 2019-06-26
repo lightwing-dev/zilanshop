@@ -1,8 +1,12 @@
 package com.zilansw.zilanshop.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+@TableName("z_evaluationimage")
 public class ZEvaluationimage {
 
+  @TableId("eiid")
   private long eiid;
   private String eid;
   private String imgpath;

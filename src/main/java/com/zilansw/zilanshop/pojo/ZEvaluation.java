@@ -1,10 +1,14 @@
 package com.zilansw.zilanshop.pojo;
 
 
-import com.sun.tools.javac.util.List;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.List;
+
+@TableName("z_evaluation")
 public class ZEvaluation {
-
+  @TableId("eid")
   private long eid;
   private double star;
   private String content;
