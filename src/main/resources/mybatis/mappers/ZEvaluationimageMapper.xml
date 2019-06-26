@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zilansw.zilanshop.dao.ZEvaluationimageDao">
+  <resultMap id="BaseResultMap" type="com.zilansw.zilanshop.pojo.ZEvaluationimage">
+    <id column="eiid" jdbcType="INTEGER" property="eiid" />
+    <result column="eid" jdbcType="VARCHAR" property="eid" />
+    <result column="imgpath" jdbcType="VARCHAR" property="imgpath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    eiid, eid, imgpath
+  </sql>
+
+</mapper>

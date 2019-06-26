@@ -11,7 +11,7 @@ public class ZStock {
   private long sid;
   private long gid;
   private long stocknum;
-
+  private ZGoods zGoods;
 
   public long getSid() {
     return sid;
@@ -21,7 +21,6 @@ public class ZStock {
     this.sid = sid;
   }
 
-
   public long getGid() {
     return gid;
   }
@@ -29,7 +28,6 @@ public class ZStock {
   public void setGid(long gid) {
     this.gid = gid;
   }
-
 
   public long getStocknum() {
     return stocknum;
@@ -39,4 +37,11 @@ public class ZStock {
     this.stocknum = stocknum;
   }
 
+  public ZGoods getzGoods() {
+    return zGoods;
+  }
+
+  public void setzGoods(ZGoods zGoods) {
+    this.zGoods = zGoods;
+  }
 }

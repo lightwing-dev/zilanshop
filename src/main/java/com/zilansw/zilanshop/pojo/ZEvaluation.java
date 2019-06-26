@@ -8,7 +8,7 @@ import java.util.List;
 
 @TableName("z_evaluation")
 public class ZEvaluation {
-  @TableId("eid")
+
   private long eid;
   private double star;
   private String content;

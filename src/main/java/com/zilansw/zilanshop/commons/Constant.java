@@ -10,8 +10,8 @@ public class Constant
     /**
      * 图片上传路径
      */
-    public static final String UPLOADPATH="/usr/local/zilanshop_files/images/";
-
+//    public static final String UPLOADPATH="/usr/local/zilanshop_files/images/";
+    public static final String UPLOADPATH="I:/images/";
     /**
      * 域名
      */
