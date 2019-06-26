@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zilansw.zilanshop.dao.ZOrderDao">
+
+    <!--订单主详表-->
+    <resultMap id="orderMap" type="com.zilansw.zilanshop.pojo.ZOrder">
+        <id column="orderid" property="orderid"/>
+        <result property="createTime" column="createTime"/>
+        <result property="uid" column="uid"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="returnreason" column="returnreason"/>
+        <result property="rejectreason" column="rejectreason"/>
+        <result property="totalprice" column="totalprice"/>
+        <result property="refundprice" column="refundprice"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="address" column="address"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="expnumber" column="expnumber"/>
+        <collection property="orderdetails" ofType="com.zilansw.zilanshop.pojo.ZOrderdetail">
+            <id column="odid" property="odid"/>
+            <result property="orderid" column="orderid"/>
+            <result property="gid" column="gid"/>
+            <result property="num" column="num"/>
+            <result property="price" column="price"/>
+            <result property="totalprice" column="totalprice"/>
+        </collection>
+    </resultMap>
+
+    <insert id="addOrder" parameterType="com.zilansw.zilanshop.pojo.ZOrder">
+        insert into z_order (orderid, create_time, uid, status, remark, totalprice, refundprice, province, city, district, address, name, phone)
+        values (#{order.orderid},NOW(),#{order.uid},#{order.status},#{order.remark},#{order.totalprice},0.0,#{order.province},#{order.city},#{order.district},#{order.address},#{order.name},#{order.phone});
+        <if test="order.orderdetails.size()!=0">
+
+        </if>
+    </insert>
+</mapper>
