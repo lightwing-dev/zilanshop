@@ -7,11 +7,10 @@ mybatis-plus:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://db.lightidc.com:10126/zilansw_shop?useUnicode=true&allowMultiQueries=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
-    url: jdbc:mysql://127.0.0.1:3306/zilansw_shop?useUnicode=true&allowMultiQueries=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://db.lightidc.com:10126/zilansw_shop?useUnicode=true&allowMultiQueries=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
     username: root
-#    password: Chao201019!!
-    password: root
+    password: Chao201019!!
+
 logging:
   level:
     com.zilansw.zilanshop.dao: DEBUG
