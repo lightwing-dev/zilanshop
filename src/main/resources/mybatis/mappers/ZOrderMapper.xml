@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
 <mapper namespace="com.zilansw.zilanshop.dao.ZOrderDao">
 
     <!--订单主详表-->
@@ -27,6 +28,13 @@
             <result property="num" column="num"/>
             <result property="price" column="price"/>
             <result property="totalprice" column="totalprice"/>
+            <association property="goods" javaType="com.zilansw.zilanshop.pojo.ZGoods">
+                <id column="gid" property="gid" />
+                <result property="gtypeid" column="gtypeid" />
+                <result property="gname" column="gname" />
+                <result property="price" column="price" />
+                <result property="status" column="status" />
+            </association>
         </collection>
     </resultMap>
 
@@ -34,7 +42,20 @@
         insert into z_order (orderid, create_time, uid, status, remark, totalprice, refundprice, province, city, district, address, name, phone)
         values (#{order.orderid},NOW(),#{order.uid},#{order.status},#{order.remark},#{order.totalprice},0.0,#{order.province},#{order.city},#{order.district},#{order.address},#{order.name},#{order.phone});
         <if test="order.orderdetails.size()!=0">
-
+            insert into z_orderdetail (orderid, gid, num, price, totalprice) values
+            <foreach collection="order.orderdetails" item="item" separator=",">
+                (#{order.orderid},#{item.gid},#{item.num},#{item.price},#{item.totaklprice})
+            </foreach>
         </if>
     </insert>
+
+    <select id="getOrder" resultMap="orderMap">
+        select * from z_order o
+        inner join z_orderdetail od
+        on(o.orderid=od.odid)
+        inner join z_goods g
+        on(od.gid=g.gid)
+        where o.orderid=#{orderid};
+    </select>
+
 </mapper>

@@ -14,7 +14,15 @@ public class ZOrderdetail {
   private String num;
   private double price;
   private double totalprice;
+  private ZGoods goods;
 
+  public ZGoods getGoods() {
+    return goods;
+  }
+
+  public void setGoods(ZGoods goods) {
+    this.goods = goods;
+  }
 
   public long getOdid() {
     return odid;

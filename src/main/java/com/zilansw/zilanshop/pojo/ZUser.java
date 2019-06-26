@@ -15,7 +15,15 @@ public class ZUser {
   private String openid;
   private String headimg;
   private String phone;
+  private String nickname;
 
+  public String getNickname() {
+    return nickname;
+  }
+
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
 
   public long getUid() {
     return uid;

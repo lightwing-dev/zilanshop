@@ -18,4 +18,11 @@ public interface ZOrderDao extends BaseMapper<ZOrder> {
      * @return
      */
     Integer addOrder(@Param("order") ZOrder order);
+
+    /**
+     * 获取订单信息
+     * @param orderid
+     * @return
+     */
+    ZOrder getOrder(@Param("orderid") Integer orderid);
 }
