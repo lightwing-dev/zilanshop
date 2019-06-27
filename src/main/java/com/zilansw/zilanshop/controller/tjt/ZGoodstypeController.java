@@ -32,7 +32,7 @@ public class ZGoodstypeController {
      *
      * @return
      */
-    @RequestMapping("selectAll")
+    @RequestMapping("getList")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gtypename) {
         Page<ZGoodstype> page = new Page<>(pageIndex, limit);
@@ -51,7 +51,7 @@ public class ZGoodstypeController {
      * @param zGoodstype
      * @return
      */
-    @RequestMapping("insert")
+    @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZGoodstype zGoodstype) {
         zGoodstypeService.insert(zGoodstype);

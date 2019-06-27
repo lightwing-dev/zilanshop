@@ -32,7 +32,7 @@ public class ZBannerController {
      *
      * @return
      */
-    @RequestMapping("selectAll")
+    @RequestMapping("getList")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String name) {
         Page<ZBanner> page = new Page<>(pageIndex, limit);
@@ -51,7 +51,7 @@ public class ZBannerController {
      * @param zBanner
      * @return
      */
-    @RequestMapping("insert")
+    @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZBanner zBanner) {
         zBannerService.insert(zBanner);

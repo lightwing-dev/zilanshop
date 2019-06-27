@@ -33,7 +33,7 @@ public class ZAddressController {
      * 分页查询
      * @return
      */
-    @RequestMapping("selectAll")
+    @RequestMapping("getList")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit,String name) {
         Page<ZAddress> page = new Page<>(pageIndex, limit);
@@ -49,7 +49,7 @@ public class ZAddressController {
      * @param zAddress
      * @return
      */
-    @RequestMapping("insert")
+    @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZAddress zAddress){
         zAddressService.insert(zAddress);

@@ -29,7 +29,7 @@ public class ZGoodsController {
      *
      * @return
      */
-    @RequestMapping("selectAll")
+    @RequestMapping("getList")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
         List<ZGoods> iPage = zGoodsService.selectAll(gname,((pageIndex-1)*limit), limit);
@@ -43,7 +43,7 @@ public class ZGoodsController {
      * @param zGoods
      * @return
      */
-    @RequestMapping("insert")
+    @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZGoods zGoods) {
         zGoodsService.insert(zGoods);

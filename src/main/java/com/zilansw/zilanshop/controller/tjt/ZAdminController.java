@@ -31,7 +31,7 @@ public class ZAdminController {
      * 分页查询
      * @return
      */
-    @RequestMapping("selectAll")
+    @RequestMapping("getList")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit,String name) {
         Page<ZAdmin> page = new Page<>(pageIndex, limit);
@@ -49,7 +49,7 @@ public class ZAdminController {
      * @param ZAdmin
      * @return
      */
-    @RequestMapping("insert")
+    @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZAdmin ZAdmin){
         ZAdminService.insert(ZAdmin);

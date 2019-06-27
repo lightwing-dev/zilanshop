@@ -29,7 +29,7 @@ public class ZEvaluationController {
      *
      * @return
      */
-    @RequestMapping("selectAll")
+    @RequestMapping("getList")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
         List<ZEvaluation> iPage = zEvaluationService.selectAll(gname,((pageIndex-1)*limit), limit);
@@ -44,7 +44,7 @@ public class ZEvaluationController {
      * @param zEvaluation
      * @return
      */
-    @RequestMapping("insert")
+    @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZEvaluation zEvaluation) {
         zEvaluationService.insert(zEvaluation);

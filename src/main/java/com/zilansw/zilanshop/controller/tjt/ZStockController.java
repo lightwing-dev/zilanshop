@@ -33,7 +33,7 @@ public class ZStockController {
      *
      * @return
      */
-    @RequestMapping("selectAll")
+    @RequestMapping("getList")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
         List<ZStock> iPage = zStockService.selectAll(gname,((pageIndex-1)*limit), limit);
@@ -47,7 +47,7 @@ public class ZStockController {
      * @param zStock
      * @return
      */
-    @RequestMapping("insert")
+    @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZStock zStock) {
         zStockService.insert(zStock);
