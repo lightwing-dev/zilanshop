@@ -21,7 +21,7 @@ import java.util.Map;
  * @date 2019-06-26
  */
 @Controller
-@RequestMapping("ZAdmin")
+@RequestMapping("zAdmin")
 public class ZAdminController {
 
     @Autowired
@@ -36,7 +36,9 @@ public class ZAdminController {
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit,String name) {
         Page<ZAdmin> page = new Page<>(pageIndex, limit);
         QueryWrapper<ZAdmin> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("name",name);
+        if (name!="" && name!=null){
+            queryWrapper.eq("name",name);
+        }
         IPage<ZAdmin> iPage = ZAdminService.selectAll(page, queryWrapper);
         PageBean pageBean = new PageBean((int) iPage.getCurrent(),(int) iPage.getSize(),Integer.parseInt(String.valueOf(iPage.getTotal())),Collections.singletonList(iPage.getRecords()));
         return pageBean;
@@ -71,7 +73,7 @@ public class ZAdminController {
      * @param aid
      * @return
      */
-    @RequestMapping("update")
+    @RequestMapping("delete")
     @ResponseBody
     public Map<String, Object> delete(Integer aid){
         ZAdminService.delete(aid);

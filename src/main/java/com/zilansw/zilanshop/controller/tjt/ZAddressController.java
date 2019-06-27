@@ -73,7 +73,7 @@ public class ZAddressController {
      * @param aid
      * @return
      */
-    @RequestMapping("update")
+    @RequestMapping("delete")
     @ResponseBody
     public Map<String, Object> delete(Integer aid){
         zAddressService.delete(aid);

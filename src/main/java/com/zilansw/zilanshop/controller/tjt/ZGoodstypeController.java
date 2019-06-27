@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zilansw.zilanshop.commons.MessageBack;
 import com.zilansw.zilanshop.commons.PageBean;
-import com.zilansw.zilanshop.pojo.ZBanner;
-import com.zilansw.zilanshop.service.tjt.ZBannerService;
+import com.zilansw.zilanshop.pojo.ZGoodstype;
+import com.zilansw.zilanshop.service.tjt.ZGoodstypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +21,11 @@ import java.util.Map;
  * @date 2019-06-26
  */
 @Controller
-@RequestMapping("zBanner")
-public class ZBannerController {
+@RequestMapping("zGoodstype")
+public class ZGoodstypeController {
 
     @Autowired
-    private ZBannerService zBannerService;
+    private ZGoodstypeService zGoodstypeService;
 
     /**
      * 分页查询
@@ -34,53 +34,53 @@ public class ZBannerController {
      */
     @RequestMapping("selectAll")
     @ResponseBody
-    public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String name) {
-        Page<ZBanner> page = new Page<>(pageIndex, limit);
-        QueryWrapper<ZBanner> queryWrapper = new QueryWrapper<>();
-        if (name!="" && name!=null){
-            queryWrapper.eq("name",name);
+    public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gtypename) {
+        Page<ZGoodstype> page = new Page<>(pageIndex, limit);
+        QueryWrapper<ZGoodstype> queryWrapper = new QueryWrapper<>();
+        if (gtypename!="" && gtypename!=null){
+            queryWrapper.eq("gtypename", gtypename);
         }
-        IPage<ZBanner> iPage = zBannerService.selectAll(page, queryWrapper);
+        IPage<ZGoodstype> iPage = zGoodstypeService.selectAll(page, queryWrapper);
         PageBean pageBean = new PageBean((int) iPage.getCurrent(), (int) iPage.getSize(), Integer.parseInt(String.valueOf(iPage.getTotal())), Collections.singletonList(iPage.getRecords()));
         return pageBean;
     }
 
     /**
-     * 新增轮播图
+     * 新增商品分类
      *
-     * @param zBanner
+     * @param zGoodstype
      * @return
      */
     @RequestMapping("insert")
     @ResponseBody
-    public Map<String, Object> insert(ZBanner zBanner) {
-        zBannerService.insert(zBanner);
+    public Map<String, Object> insert(ZGoodstype zGoodstype) {
+        zGoodstypeService.insert(zGoodstype);
         return MessageBack.MSG(200, "新增成功");
     }
 
     /**
-     * 新增轮播图
+     * 新增商品分类
      *
-     * @param zBanner
+     * @param zGoodstype
      * @return
      */
     @RequestMapping("update")
     @ResponseBody
-    public Map<String, Object> update(ZBanner zBanner) {
-        zBannerService.update(zBanner);
+    public Map<String, Object> update(ZGoodstype zGoodstype) {
+        zGoodstypeService.update(zGoodstype);
         return MessageBack.MSG(200, "修改成功");
     }
 
     /**
-     * 删除轮播图
+     * 删除商品分类
      *
-     * @param bid
+     * @param gtypeid
      * @return
      */
     @RequestMapping("delete")
     @ResponseBody
-    public Map<String, Object> delete(Integer bid) {
-        zBannerService.delete(bid);
+    public Map<String, Object> delete(Integer gtypeid) {
+        zGoodstypeService.delete(gtypeid);
         return MessageBack.MSG(200, "删除成功");
     }
 }

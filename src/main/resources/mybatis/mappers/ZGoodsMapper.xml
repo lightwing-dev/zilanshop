@@ -9,8 +9,33 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="gdetail" jdbcType="LONGVARCHAR" property="gdetail" />
+    <association property="goodstype" column="gtypeid" select="queryZGtype"></association>
+    <association property="stock" column="gid" select="queryZStock"></association>
+  </resultMap>
+  <resultMap id="ZGoodstypeMap" type="com.zilansw.zilanshop.pojo.ZGoodstype">
+    <id column="gtypeid" jdbcType="INTEGER" property="gtypeid" />
+    <result column="gtypename" jdbcType="VARCHAR" property="gtypename" />
+    <result column="iconimgpath" jdbcType="VARCHAR" property="iconimgpath" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+
+  <resultMap id="ZStockMap" type="com.zilansw.zilanshop.pojo.ZStock">
+    <id column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="stocknum" jdbcType="INTEGER" property="stocknum" />
   </resultMap>
   <sql id="Base_Column_List">
-    gid, gtypeid, gname, price, create_time, `status`.`gdetail`
+    gid, gtypeid, gname, price, create_time, `status`,`gdetail`
   </sql>
+  <select id="selectPage" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from z_goods
+    limit #{pageIndex},#{limit}
+  </select>
+
+  <select id="queryZGtype" resultMap="ZGoodstypeMap">
+    select * from z_goodstype where gtypeid = #{gtypeid}
+  </select>
+  <select id="queryZStock" resultMap="ZStockMap">
+    select * from z_stock where gid = #{gid}
+  </select>
 </mapper>

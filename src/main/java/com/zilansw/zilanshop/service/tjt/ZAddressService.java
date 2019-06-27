@@ -50,7 +50,7 @@ public class ZAddressService {
     }
 
     /**
-     * 查询所以/根据条件查询
+     * 查询所有/根据条件查询
      * @param
      * @return
      */

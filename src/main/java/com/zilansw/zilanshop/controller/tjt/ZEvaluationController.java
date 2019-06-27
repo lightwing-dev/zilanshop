@@ -1,32 +1,28 @@
 package com.zilansw.zilanshop.controller.tjt;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zilansw.zilanshop.commons.MessageBack;
 import com.zilansw.zilanshop.commons.PageBean;
-import com.zilansw.zilanshop.pojo.ZStock;
-import com.zilansw.zilanshop.service.tjt.ZStockService;
+import com.zilansw.zilanshop.pojo.ZEvaluation;
+import com.zilansw.zilanshop.service.tjt.ZEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author tjt
- * @date 2019-06-26
+ * @date 2019-06-27
  */
 @Controller
-@RequestMapping("zStock")
-public class ZStockController {
+@RequestMapping("zEvaluation")
+public class ZEvaluationController {
 
     @Autowired
-    private ZStockService zStockService;
+    private ZEvaluationService zEvaluationService;
 
     /**
      * 分页查询
@@ -36,47 +32,48 @@ public class ZStockController {
     @RequestMapping("selectAll")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
-        List<ZStock> iPage = zStockService.selectAll(gname,((pageIndex-1)*limit), limit);
-        PageBean pageBean = new PageBean(pageIndex, limit, zStockService.selectCount(gname), iPage);
+        List<ZEvaluation> iPage = zEvaluationService.selectAll(gname,((pageIndex-1)*limit), limit);
+
+        PageBean pageBean = new PageBean(pageIndex, limit, zEvaluationService.selectCount(gname), iPage);
         return pageBean;
     }
 
     /**
-     * 新增库存
+     * 新增评论
      *
-     * @param zStock
+     * @param zEvaluation
      * @return
      */
     @RequestMapping("insert")
     @ResponseBody
-    public Map<String, Object> insert(ZStock zStock) {
-        zStockService.insert(zStock);
+    public Map<String, Object> insert(ZEvaluation zEvaluation) {
+        zEvaluationService.insert(zEvaluation);
         return MessageBack.MSG(200, "新增成功");
     }
 
     /**
-     * 新增库存
+     * 新增评论
      *
-     * @param zStock
+     * @param zEvaluation
      * @return
      */
     @RequestMapping("update")
     @ResponseBody
-    public Map<String, Object> update(ZStock zStock) {
-        zStockService.update(zStock);
+    public Map<String, Object> update(ZEvaluation zEvaluation) {
+        zEvaluationService.update(zEvaluation);
         return MessageBack.MSG(200, "修改成功");
     }
 
     /**
-     * 删除库存
+     * 删除评论
      *
-     * @param sid
+     * @param eid
      * @return
      */
     @RequestMapping("delete")
     @ResponseBody
-    public Map<String, Object> delete(Integer sid) {
-        zStockService.delete(sid);
+    public Map<String, Object> delete(Integer eid) {
+        zEvaluationService.delete(eid);
         return MessageBack.MSG(200, "删除成功");
     }
 }

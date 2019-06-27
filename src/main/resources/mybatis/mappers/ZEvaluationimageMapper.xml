@@ -5,9 +5,10 @@
     <id column="eiid" jdbcType="INTEGER" property="eiid" />
     <result column="eid" jdbcType="VARCHAR" property="eid" />
     <result column="imgpath" jdbcType="VARCHAR" property="imgpath" />
+    <result column="create_time" jdbcType="DOUBLE" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    eiid, eid, imgpath
+    eiid, eid, imgpath,create_time
   </sql>
 
 </mapper>

@@ -1,8 +1,8 @@
 package com.zilansw.zilanshop.service.tjt;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zilansw.zilanshop.dao.ZStockDao;
-import com.zilansw.zilanshop.pojo.ZStock;
+import com.zilansw.zilanshop.dao.ZEvaluationDao;
+import com.zilansw.zilanshop.pojo.ZEvaluation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,40 +13,40 @@ import java.util.List;
 
 /**
  * @author tjt
- * @date 2019-06-26
+ * @date 2019-06-27
  */
 @Service
 @Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.REQUIRED,rollbackFor = Exception.class,noRollbackFor = RuntimeException.class)
-public class ZStockService {
+public class ZEvaluationService {
 
     @Autowired
-    private ZStockDao zStockDao;
+    private ZEvaluationDao zEvaluationDao;
 
     /**
-     * 新增库存
-     * @param zStock
+     * 新增评论
+     * @param zEvaluation
      * @return
      */
-    public int insert(ZStock zStock){
-        return zStockDao.insert(zStock);
+    public int insert(ZEvaluation zEvaluation){
+        return zEvaluationDao.insert(zEvaluation);
     }
 
     /**
-     * 修改库存
-     * @param zStock
+     * 修改评论
+     * @param zEvaluation
      * @return
      */
-    public int update(ZStock zStock){
-        return zStockDao.updateById(zStock);
+    public int update(ZEvaluation zEvaluation){
+        return zEvaluationDao.updateById(zEvaluation);
     }
 
     /**
-     * 删除库存
+     * 删除评论
      * @param aid
      * @return
      */
     public int delete(Integer aid){
-        return zStockDao.deleteById(aid);
+        return zEvaluationDao.deleteById(aid);
     }
 
     /**
@@ -54,16 +54,16 @@ public class ZStockService {
      * @param
      * @return
      */
-    public List<ZStock> selectAll(String gname, Integer pageIndex, Integer limit){
-        return zStockDao.selectPage(gname,pageIndex,limit);
+    public List<ZEvaluation> selectAll(String gname, Integer pageIndex, Integer limit){
+        return zEvaluationDao.selectPage(gname,pageIndex,limit);
     }
 
     public int selectCount(String gname){
-        QueryWrapper<ZStock> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<ZEvaluation> queryWrapper = new QueryWrapper<>();
         if (gname!="" && gname!=null){
             queryWrapper.eq("gname",gname);
         }
-        return zStockDao.selectCount(queryWrapper);
+        return zEvaluationDao.selectCount(queryWrapper);
     }
 
 }

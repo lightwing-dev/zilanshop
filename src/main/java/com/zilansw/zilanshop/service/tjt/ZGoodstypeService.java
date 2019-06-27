@@ -3,8 +3,8 @@ package com.zilansw.zilanshop.service.tjt;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zilansw.zilanshop.dao.ZAdminDao;
-import com.zilansw.zilanshop.pojo.ZAdmin;
+import com.zilansw.zilanshop.dao.ZGoodstypeDao;
+import com.zilansw.zilanshop.pojo.ZGoodstype;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,40 +13,40 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author tjt
- * @date 2019-06-26
+ * @date 2019-06-27
  */
 @Service
 @Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.REQUIRED,rollbackFor = Exception.class,noRollbackFor = RuntimeException.class)
-public class ZAdminService {
+public class ZGoodstypeService {
 
     @Autowired
-    private ZAdminDao zAdminDao;
+    private ZGoodstypeDao zGoodstypeDao;
 
     /**
-     * 新增管理员
-     * @param zAdmin
+     * 新增商品类型
+     * @param zGoodstype
      * @return
      */
-    public int insert(ZAdmin zAdmin){
-        return zAdminDao.insert(zAdmin);
+    public int insert(ZGoodstype zGoodstype){
+        return zGoodstypeDao.insert(zGoodstype);
     }
 
     /**
-     * 修改管理员
-     * @param zAdmin
+     * 修改商品类型
+     * @param zGoodstype
      * @return
      */
-    public int update(ZAdmin zAdmin){
-        return zAdminDao.updateById(zAdmin);
+    public int update(ZGoodstype zGoodstype){
+        return zGoodstypeDao.updateById(zGoodstype);
     }
 
     /**
-     * 删除管理员
+     * 删除商品类型
      * @param aid
      * @return
      */
     public int delete(Integer aid){
-        return zAdminDao.deleteById(aid);
+        return zGoodstypeDao.deleteById(aid);
     }
 
     /**
@@ -54,8 +54,8 @@ public class ZAdminService {
      * @param
      * @return
      */
-    public IPage<ZAdmin> selectAll(Page<ZAdmin> page, QueryWrapper<ZAdmin> queryWrapper){
-        return zAdminDao.selectPage(page,queryWrapper);
+    public IPage<ZGoodstype> selectAll(Page<ZGoodstype> page, QueryWrapper<ZGoodstype> queryWrapper){
+        return zGoodstypeDao.selectPage(page,queryWrapper);
     }
 
 

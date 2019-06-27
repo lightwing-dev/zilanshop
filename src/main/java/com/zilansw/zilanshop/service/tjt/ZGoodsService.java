@@ -1,15 +1,15 @@
 package com.zilansw.zilanshop.service.tjt;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zilansw.zilanshop.dao.ZAdminDao;
-import com.zilansw.zilanshop.pojo.ZAdmin;
+import com.zilansw.zilanshop.dao.ZGoodsDao;
+import com.zilansw.zilanshop.pojo.ZGoods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author tjt
@@ -17,36 +17,36 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.REQUIRED,rollbackFor = Exception.class,noRollbackFor = RuntimeException.class)
-public class ZAdminService {
+public class ZGoodsService {
 
     @Autowired
-    private ZAdminDao zAdminDao;
+    private ZGoodsDao zGoodsDao;
 
     /**
-     * 新增管理员
-     * @param zAdmin
+     * 新增商品
+     * @param zGoods
      * @return
      */
-    public int insert(ZAdmin zAdmin){
-        return zAdminDao.insert(zAdmin);
+    public int insert(ZGoods zGoods){
+        return zGoodsDao.insert(zGoods);
     }
 
     /**
-     * 修改管理员
-     * @param zAdmin
+     * 修改商品
+     * @param zGoods
      * @return
      */
-    public int update(ZAdmin zAdmin){
-        return zAdminDao.updateById(zAdmin);
+    public int update(ZGoods zGoods){
+        return zGoodsDao.updateById(zGoods);
     }
 
     /**
-     * 删除管理员
+     * 删除商品
      * @param aid
      * @return
      */
     public int delete(Integer aid){
-        return zAdminDao.deleteById(aid);
+        return zGoodsDao.deleteById(aid);
     }
 
     /**
@@ -54,9 +54,16 @@ public class ZAdminService {
      * @param
      * @return
      */
-    public IPage<ZAdmin> selectAll(Page<ZAdmin> page, QueryWrapper<ZAdmin> queryWrapper){
-        return zAdminDao.selectPage(page,queryWrapper);
+    public List<ZGoods> selectAll(String gname, Integer pageIndex, Integer limit){
+        return zGoodsDao.selectPage(gname,pageIndex,limit);
     }
 
+    public int selectCount(String gname){
+        QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
+        if (gname!="" && gname!=null){
+            queryWrapper.eq("gname",gname);
+        }
+        return zGoodsDao.selectCount(queryWrapper);
+    }
 
 }

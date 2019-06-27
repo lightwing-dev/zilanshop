@@ -1,19 +1,15 @@
 package com.zilansw.zilanshop.controller.tjt;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zilansw.zilanshop.commons.MessageBack;
 import com.zilansw.zilanshop.commons.PageBean;
-import com.zilansw.zilanshop.pojo.ZStock;
-import com.zilansw.zilanshop.service.tjt.ZStockService;
+import com.zilansw.zilanshop.pojo.ZGoods;
+import com.zilansw.zilanshop.service.tjt.ZGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +18,11 @@ import java.util.Map;
  * @date 2019-06-26
  */
 @Controller
-@RequestMapping("zStock")
-public class ZStockController {
+@RequestMapping("zGoods")
+public class ZGoodsController {
 
     @Autowired
-    private ZStockService zStockService;
+    private ZGoodsService zGoodsService;
 
     /**
      * 分页查询
@@ -36,47 +32,47 @@ public class ZStockController {
     @RequestMapping("selectAll")
     @ResponseBody
     public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
-        List<ZStock> iPage = zStockService.selectAll(gname,((pageIndex-1)*limit), limit);
-        PageBean pageBean = new PageBean(pageIndex, limit, zStockService.selectCount(gname), iPage);
+        List<ZGoods> iPage = zGoodsService.selectAll(gname,((pageIndex-1)*limit), limit);
+        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(gname), iPage);
         return pageBean;
     }
 
     /**
-     * 新增库存
+     * 新增商品
      *
-     * @param zStock
+     * @param zGoods
      * @return
      */
     @RequestMapping("insert")
     @ResponseBody
-    public Map<String, Object> insert(ZStock zStock) {
-        zStockService.insert(zStock);
+    public Map<String, Object> insert(ZGoods zGoods) {
+        zGoodsService.insert(zGoods);
         return MessageBack.MSG(200, "新增成功");
     }
 
     /**
-     * 新增库存
+     * 新增商品
      *
-     * @param zStock
+     * @param zGoods
      * @return
      */
     @RequestMapping("update")
     @ResponseBody
-    public Map<String, Object> update(ZStock zStock) {
-        zStockService.update(zStock);
+    public Map<String, Object> update(ZGoods zGoods) {
+        zGoodsService.update(zGoods);
         return MessageBack.MSG(200, "修改成功");
     }
 
     /**
-     * 删除库存
+     * 删除商品
      *
-     * @param sid
+     * @param gid
      * @return
      */
     @RequestMapping("delete")
     @ResponseBody
-    public Map<String, Object> delete(Integer sid) {
-        zStockService.delete(sid);
+    public Map<String, Object> delete(Integer gid) {
+        zGoodsService.delete(gid);
         return MessageBack.MSG(200, "删除成功");
     }
 }

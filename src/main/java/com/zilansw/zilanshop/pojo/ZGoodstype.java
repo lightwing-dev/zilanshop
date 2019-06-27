@@ -15,18 +15,6 @@ public class ZGoodstype {
   private String iconimgpath;
   private String description;
 
-  /**
-   * 商品列表
-   */
-  private List<ZGoods> goods;
-
-  public List<ZGoods> getGoods() {
-    return goods;
-  }
-
-  public void setGoods(List<ZGoods> goods) {
-    this.goods = goods;
-  }
 
   public long getGtypeid() {
     return gtypeid;
