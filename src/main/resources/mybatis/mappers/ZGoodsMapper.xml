@@ -11,6 +11,7 @@
     <result column="gdetail" jdbcType="LONGVARCHAR" property="gdetail" />
     <association property="goodstype" column="gtypeid" select="queryZGtype"></association>
     <association property="stock" column="gid" select="queryZStock"></association>
+    <collection property="zEvaluationList" column="gid" select="queryZEvaluationList"></collection>
   </resultMap>
   <resultMap id="ZGoodstypeMap" type="com.zilansw.zilanshop.pojo.ZGoodstype">
     <id column="gtypeid" jdbcType="INTEGER" property="gtypeid" />
@@ -23,6 +24,29 @@
     <id column="sid" jdbcType="INTEGER" property="sid" />
     <result column="gid" jdbcType="INTEGER" property="gid" />
     <result column="stocknum" jdbcType="INTEGER" property="stocknum" />
+  </resultMap>
+
+  <resultMap id="ZEvaluationMap" type="com.zilansw.zilanshop.pojo.ZEvaluation">
+    <id column="eid" jdbcType="INTEGER" property="eid"/>
+    <result column="star" jdbcType="DOUBLE" property="star"/>
+    <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    <result column="gid" jdbcType="DOUBLE" property="gid"/>
+    <result column="uid" jdbcType="DOUBLE" property="uid"/>
+    <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
+    <association property="zUser" column="uid" select="queryZUser"></association>
+    <collection property="evaluationimages" column="eid" select="queryEvaluationimages"></collection>
+  </resultMap>
+
+  <resultMap id="ZUserMap" type="com.zilansw.zilanshop.pojo.ZUser">
+    <id column="uid" jdbcType="INTEGER" property="uid"/>
+    <result column="username" property="username"/>
+  </resultMap>
+
+  <resultMap id="ZEvaluationimageMap" type="com.zilansw.zilanshop.pojo.ZEvaluationimage">
+    <id column="eiid" jdbcType="INTEGER" property="eiid"/>
+    <result column="eid" jdbcType="VARCHAR" property="eid"/>
+    <result column="imgpath" jdbcType="VARCHAR" property="imgpath"/>
+    <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
   </resultMap>
   <sql id="Base_Column_List">
     gid, gtypeid, gname, price, create_time, `status`,`gdetail`
@@ -38,4 +62,31 @@
   <select id="queryZStock" resultMap="ZStockMap">
     select * from z_stock where gid = #{gid}
   </select>
+  <select id="queryZEvaluationList" resultMap="ZEvaluationMap">
+    select * from z_evaluation where gid = #{gid}
+  </select>
+
+  <select id="queryZUser" resultMap="ZUserMap">
+        select UID, USERNAME from z_user where uid=#{uid}
+    </select>
+
+  <select id="queryEvaluationimages" resultMap="ZEvaluationimageMap">
+        select * from z_evaluationimage where eid=#{eid}
+    </select>
+    <select id="selectByWeb" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"></include> from z_goods
+      <where>
+        <if test="map.gname!=null and map.gname!=''">
+         and gname = #{map.gname}
+        </if>
+        <if test="map.gtypeid!=null">
+          and gtypeid = #{map.gtypeid}
+        </if>
+      </where>
+      limit #{pageIndex},#{limit}
+    </select>
+  <select id="selectById" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from z_goods where gid = #{gid}
+  </select>
+
 </mapper>

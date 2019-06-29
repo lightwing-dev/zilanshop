@@ -3,9 +3,12 @@ package com.zilansw.zilanshop;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.zilansw.zilanshop.commons.Constant;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -19,6 +22,7 @@ public class ZilanshopApplication implements WebMvcConfigurer {
 
     /**
      * 配置FastJSON作为JSON默认解析器
+     *
      * @param converters
      */
     @Override
@@ -37,5 +41,20 @@ public class ZilanshopApplication implements WebMvcConfigurer {
         fastConverter.setFastJsonConfig(fastJsonConfig);
         // 4、将convert添加到converters当中.
         converters.add(fastConverter);
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowCredentials(true)
+                .allowedMethods("GET", "POST", "DELETE", "PUT")
+                .maxAge(3600);
+    }
+
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/pictures/**").addResourceLocations("file:"+ Constant.UPLOADPATH);
     }
 }

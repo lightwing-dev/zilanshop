@@ -51,7 +51,7 @@ public class ZGoodsController {
     }
 
     /**
-     * 新增商品
+     * 修改商品
      *
      * @param zGoods
      * @return

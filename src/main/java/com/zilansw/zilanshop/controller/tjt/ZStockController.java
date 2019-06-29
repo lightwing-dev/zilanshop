@@ -55,7 +55,7 @@ public class ZStockController {
     }
 
     /**
-     * 新增库存
+     * 修改库存
      *
      * @param zStock
      * @return

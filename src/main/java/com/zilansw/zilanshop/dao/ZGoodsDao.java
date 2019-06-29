@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
+
 /**
  * @author : tjt
  * 创建时间 : 2019-06-27
@@ -15,7 +17,7 @@ import java.util.List;
 public interface ZGoodsDao extends BaseMapper<ZGoods> {
 
     /**
-     * 查询商品库存
+     * 查询商品
      * @param gname
      * @param pageIndex
      * @param limit
@@ -23,5 +25,8 @@ public interface ZGoodsDao extends BaseMapper<ZGoods> {
      */
     List<ZGoods> selectPage(@Param("gname") String gname, @Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
 
+    List<ZGoods> selectByWeb(@Param("map")Map<String,Object> map, @Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
+
+    List<ZGoods> selectById(@Param("gid") Integer gid);
 
 }

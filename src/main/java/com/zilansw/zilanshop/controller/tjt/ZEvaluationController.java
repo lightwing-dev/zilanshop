@@ -52,7 +52,7 @@ public class ZEvaluationController {
     }
 
     /**
-     * 新增评论
+     * 修改评论
      *
      * @param zEvaluation
      * @return

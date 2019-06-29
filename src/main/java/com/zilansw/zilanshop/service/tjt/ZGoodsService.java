@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tjt
@@ -58,12 +59,20 @@ public class ZGoodsService {
         return zGoodsDao.selectPage(gname,pageIndex,limit);
     }
 
+    public List<ZGoods> selectByWeb(Map<String,Object> map, Integer pageIndex, Integer limit){
+        return zGoodsDao.selectByWeb(map,pageIndex,limit);
+    }
+
     public int selectCount(String gname){
         QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
         if (gname!="" && gname!=null){
             queryWrapper.eq("gname",gname);
         }
         return zGoodsDao.selectCount(queryWrapper);
+    }
+
+    public List<ZGoods> selectById(Integer gid){
+       return zGoodsDao.selectById(gid);
     }
 
 }

@@ -58,5 +58,13 @@ public class ZBannerService {
         return zBannerDao.selectPage(page,queryWrapper);
     }
 
+    /**
+     * 根据编号查询
+     * @param bid
+     * @return
+     */
+    public ZBanner selectById(Long bid){
+        return zBannerDao.selectById(bid);
+    }
 
 }

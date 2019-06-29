@@ -58,5 +58,13 @@ public class ZGoodstypeService {
         return zGoodstypeDao.selectPage(page,queryWrapper);
     }
 
+    /**
+     * 根据编号查询
+     * @param gtypeid
+     * @return
+     */
+    public ZGoodstype selectById(long gtypeid){
+        return zGoodstypeDao.selectById(gtypeid);
+    }
 
 }

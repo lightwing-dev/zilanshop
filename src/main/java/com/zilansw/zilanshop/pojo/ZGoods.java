@@ -3,6 +3,8 @@ package com.zilansw.zilanshop.pojo;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.List;
+
 @TableName("z_goods")
 public class ZGoods {
 
@@ -24,6 +26,16 @@ public class ZGoods {
    * 商品库存
    */
   private ZStock stock;
+
+  private List<ZEvaluation> zEvaluationList;
+
+  public List<ZEvaluation> getzEvaluationList() {
+    return zEvaluationList;
+  }
+
+  public void setzEvaluationList(List<ZEvaluation> zEvaluationList) {
+    this.zEvaluationList = zEvaluationList;
+  }
 
   public ZStock getStock() {
     return stock;

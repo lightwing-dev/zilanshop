@@ -50,4 +50,14 @@ public class PageBean
         this.prevpage=(pageindex-1<=0)?1:(pageindex-1);
         this.nextpage=(pageindex+1>=pagecount)?pagecount:(pageindex+1);
     }
+    public PageBean(Integer pageindex, Integer pagesize, Integer totalcount) {
+        this.pageindex = pageindex;
+        this.pagesize = pagesize;
+        this.totalcount = totalcount;
+
+        this.pagecount=(totalcount%pagesize>0)?(totalcount/pagesize)+1:(totalcount/pagesize);
+        this.prevpage=(pageindex-1<=0)?1:(pageindex-1);
+        this.nextpage=(pageindex+1>=pagecount)?pagecount:(pageindex+1);
+    }
+
 }

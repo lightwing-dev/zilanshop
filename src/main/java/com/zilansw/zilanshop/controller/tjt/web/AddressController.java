@@ -1,4 +1,4 @@
-package com.zilansw.zilanshop.controller.tjt;
+package com.zilansw.zilanshop.controller.tjt.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,6 +9,7 @@ import com.zilansw.zilanshop.pojo.ZAddress;
 import com.zilansw.zilanshop.service.tjt.ZAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,30 +19,31 @@ import java.util.Map;
 
 /**
  * @author tjt
- * @date 2019-06-26
+ * @date 2019-06-28
  */
 @Controller
-@RequestMapping("zaddress")
-public class ZAddressController {
+@RequestMapping("address_web")
+public class AddressController {
 
     @Autowired
     private ZAddressService zAddressService;
 
     /**
-     * 分页查询
+     * 分页查询当前用户的收货地址
      * @return
      */
     @RequestMapping("getList")
     @ResponseBody
-    public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit,String name) {
+    public Map<String, Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, Integer uid) {
         Page<ZAddress> page = new Page<>(pageIndex, limit);
         QueryWrapper<ZAddress> queryWrapper = new QueryWrapper<>();
-        if(name!="" && name !=null){
-            queryWrapper.eq("name",name);
+        if (uid==null){
+           return MessageBack.MSG(401,"查询是遇到了一个预期外的错误");
         }
+        queryWrapper.eq("uid",uid);
         IPage<ZAddress> iPage = zAddressService.selectAll(page, queryWrapper);
         PageBean pageBean = new PageBean((int) iPage.getCurrent(),(int) iPage.getSize(),Integer.parseInt(String.valueOf(iPage.getTotal())),Collections.singletonList(iPage.getRecords()));
-        return pageBean;
+        return MessageBack.DATA(200,"",pageBean);
     }
 
     /**

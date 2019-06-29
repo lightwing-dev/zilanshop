@@ -57,7 +57,7 @@ public class ZAdminController {
     }
 
     /**
-     * 新增管理员
+     * 修改管理员
      * @param ZAdmin
      * @return
      */
