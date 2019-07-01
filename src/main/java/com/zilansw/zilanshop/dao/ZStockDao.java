@@ -23,4 +23,10 @@ public interface ZStockDao extends BaseMapper<ZStock> {
      */
     List<ZStock> selectPage(@Param("gname") String gname, @Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
 
+    /**
+     * 根据商品编号查询
+     * @param gid
+     * @return
+     */
+    ZStock selectByGid(@Param("gid") Long gid);
 }

@@ -40,7 +40,7 @@ public class GoodsController {
         if (gtypeid!=null){
             map.put("gtypeid",gtypeid);
         }
-        List<ZGoods> iPage = zGoodsService.selectAll(gname,((pageIndex-1)*limit), limit);
+        List<ZGoods> iPage = zGoodsService.getList(gname,((pageIndex-1)*limit), limit);
         PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(gname), iPage);
         return MessageBack.DATA(200,"",pageBean);
     }
@@ -52,12 +52,12 @@ public class GoodsController {
      */
     @RequestMapping("getById")
     @ResponseBody
-    public Map<String,Object> selectById(Integer gid) {
+    public Map<String,Object> getById(Integer gid) {
         Map<String,Object> map = new HashMap<>();
         if (gid==null){
             return MessageBack.MSG(401,"在查询是遇到了一个预期外的错误");
         }
-        List<ZGoods> zGoods = zGoodsService.selectById(gid);
+        List<ZGoods> zGoods = zGoodsService.getById(gid);
         return MessageBack.DATA(200,"",zGoods);
     }
 }

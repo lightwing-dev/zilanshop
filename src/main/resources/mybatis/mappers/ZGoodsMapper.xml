@@ -6,7 +6,7 @@
     <result column="gtypeid" jdbcType="INTEGER" property="gtypeid" />
     <result column="gname" jdbcType="VARCHAR" property="gname" />
     <result column="price" jdbcType="DOUBLE" property="price" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_time" property="createTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="gdetail" jdbcType="LONGVARCHAR" property="gdetail" />
     <association property="goodstype" column="gtypeid" select="queryZGtype"></association>
@@ -49,7 +49,7 @@
     <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
   </resultMap>
   <sql id="Base_Column_List">
-    gid, gtypeid, gname, price, create_time, `status`,`gdetail`
+    gid, gtypeid, gname, price, create_time, `status`,`gdetail`,create_time
   </sql>
   <select id="selectPage" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"></include> from z_goods
@@ -85,7 +85,7 @@
       </where>
       limit #{pageIndex},#{limit}
     </select>
-  <select id="selectById" resultMap="BaseResultMap">
+  <select id="getById" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"></include> from z_goods where gid = #{gid}
   </select>
 

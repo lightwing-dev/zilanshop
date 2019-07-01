@@ -27,6 +27,6 @@ public interface ZGoodsDao extends BaseMapper<ZGoods> {
 
     List<ZGoods> selectByWeb(@Param("map")Map<String,Object> map, @Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
 
-    List<ZGoods> selectById(@Param("gid") Integer gid);
+    List<ZGoods> getById(@Param("gid") Integer gid);
 
 }

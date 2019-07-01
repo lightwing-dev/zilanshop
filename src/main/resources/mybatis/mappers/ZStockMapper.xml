@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zilansw.zilanshop.dao.ZStockDao">
-  <resultMap id="BaseResultMap" type="com.zilansw.zilanshop.pojo.ZStock">
-    <id column="sid" jdbcType="INTEGER" property="sid" />
-    <result column="gid" jdbcType="INTEGER" property="gid" />
-    <result column="stocknum" jdbcType="INTEGER" property="stocknum" />
-    <association property="zGoods" column="gid" select="selectByGoods"></association>
-  </resultMap>
-  <resultMap id="ZGoodsMap" type="com.zilansw.zilanshop.pojo.ZGoods">
-    <id column="gid" jdbcType="INTEGER" property="gid" />
-    <result column="gname" jdbcType="VARCHAR" property="gname" />
-    <result column="price" jdbcType="DOUBLE" property="price" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.zilansw.zilanshop.pojo.ZStock">
+        <id column="sid" jdbcType="INTEGER" property="sid"/>
+        <result column="gid" jdbcType="INTEGER" property="gid"/>
+        <result column="stocknum" jdbcType="INTEGER" property="stocknum"/>
+        <association property="zGoods" column="gid" select="selectByGoods"></association>
+    </resultMap>
+    <resultMap id="ZGoodsMap" type="com.zilansw.zilanshop.pojo.ZGoods">
+        <id column="gid" jdbcType="INTEGER" property="gid"/>
+        <result column="gname" jdbcType="VARCHAR" property="gname"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     sid, gid, stocknum
   </sql>
-  <select id="selectPage" resultMap="BaseResultMap">
+    <select id="selectPage" resultMap="BaseResultMap">
     select * from z_stock
-    <where>
-    </where>
     limit #{pageIndex},#{limit}
   </select>
-  <select id="selectByGoods" resultMap="ZGoodsMap">
-    select gname,price from z_goods where gid=#{gid}
+    <select id="selectByGoods" resultMap="ZGoodsMap">
+    select gid, gname from z_goods where gid=#{gid}
   </select>
+    <select id="selectById" resultMap="BaseResultMap">
+    select * from z_stock where sid=#{sid}
+  </select>
+    <select id="selectByGid" resultType="com.zilansw.zilanshop.pojo.ZStock">
+        select * from z_stock where gid=#{gid}
+    </select>
 
 </mapper>

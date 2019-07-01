@@ -58,12 +58,24 @@ public class ZStockService {
         return zStockDao.selectPage(gname,pageIndex,limit);
     }
 
+    public ZStock selectById(Integer sid){
+        return zStockDao.selectById(sid);
+    }
+
     public int selectCount(String gname){
         QueryWrapper<ZStock> queryWrapper = new QueryWrapper<>();
         if (gname!="" && gname!=null){
             queryWrapper.eq("gname",gname);
         }
         return zStockDao.selectCount(queryWrapper);
+    }
+
+    /**
+     * 根据商品编号查询库存
+     * @param gid
+     */
+    public ZStock selectByGid(Long gid){
+        return  zStockDao.selectByGid(gid);
     }
 
 }

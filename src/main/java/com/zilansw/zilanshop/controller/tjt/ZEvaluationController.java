@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ import java.util.Map;
  * @date 2019-06-27
  */
 @Controller
-@RequestMapping("zEvaluation")
+@RequestMapping("admin/zEvaluation")
 public class ZEvaluationController {
 
     @Autowired
@@ -31,11 +33,13 @@ public class ZEvaluationController {
      */
     @RequestMapping("getList")
     @ResponseBody
-    public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
-        List<ZEvaluation> iPage = zEvaluationService.selectAll(gname,((pageIndex-1)*limit), limit);
-
-        PageBean pageBean = new PageBean(pageIndex, limit, zEvaluationService.selectCount(gname), iPage);
-        return pageBean;
+    public Map<String, Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
+        Map<String, Object> map = new HashMap<>();
+        List<ZEvaluation> iPage = zEvaluationService.selectAll(gname, ((pageIndex - 1) * limit), limit);
+        PageBean pageBean = new PageBean(pageIndex, limit, zEvaluationService.selectCount(gname));
+        map.put("data", iPage);
+        map.put("pageBean", pageBean);
+        return map;
     }
 
     /**
@@ -47,6 +51,7 @@ public class ZEvaluationController {
     @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZEvaluation zEvaluation) {
+        zEvaluation.setCreateTime(new Date());
         zEvaluationService.insert(zEvaluation);
         return MessageBack.MSG(200, "新增成功");
     }

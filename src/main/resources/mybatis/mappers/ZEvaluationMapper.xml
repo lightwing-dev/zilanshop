@@ -9,7 +9,7 @@
         <result column="uid" jdbcType="DOUBLE" property="uid"/>
         <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
         <association property="zUser" column="uid" select="queryZUser"></association>
-        <collection property="zGoods" column="gid" select="queryZGoods"></collection>
+        <association property="zGoods" column="gid" select="queryZGoods"></association>
         <collection property="evaluationimages" column="eid" select="queryEvaluationimages"></collection>
     </resultMap>
 

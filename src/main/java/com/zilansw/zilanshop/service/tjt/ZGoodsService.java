@@ -55,10 +55,18 @@ public class ZGoodsService {
      * @param
      * @return
      */
-    public List<ZGoods> selectAll(String gname, Integer pageIndex, Integer limit){
+    public List<ZGoods> getList(String gname, Integer pageIndex, Integer limit){
         return zGoodsDao.selectPage(gname,pageIndex,limit);
     }
 
+    /**
+     * 查询所有
+     * @return
+     */
+    public List<ZGoods> selectAll(){
+        QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
+        return zGoodsDao.selectList(queryWrapper);
+    }
     public List<ZGoods> selectByWeb(Map<String,Object> map, Integer pageIndex, Integer limit){
         return zGoodsDao.selectByWeb(map,pageIndex,limit);
     }
@@ -71,8 +79,12 @@ public class ZGoodsService {
         return zGoodsDao.selectCount(queryWrapper);
     }
 
-    public List<ZGoods> selectById(Integer gid){
+    public ZGoods selectById(Integer gid){
        return zGoodsDao.selectById(gid);
+    }
+
+    public List<ZGoods> getById(Integer gid){
+        return zGoodsDao.getById(gid);
     }
 
 }

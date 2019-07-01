@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ import java.util.Map;
  * @date 2019-06-26
  */
 @Controller
-@RequestMapping("zGoods")
+@RequestMapping("admin/zGoods")
 public class ZGoodsController {
 
     @Autowired
@@ -31,10 +33,41 @@ public class ZGoodsController {
      */
     @RequestMapping("getList")
     @ResponseBody
-    public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
-        List<ZGoods> iPage = zGoodsService.selectAll(gname,((pageIndex-1)*limit), limit);
-        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(gname), iPage);
-        return pageBean;
+    public Map<String, Object> getList(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
+        Map<String, Object> map = new HashMap<>();
+        List<ZGoods> iPage = zGoodsService.getList(gname, ((pageIndex - 1) * limit), limit);
+        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(gname));
+        map.put("data", iPage);
+        map.put("pageBean", pageBean);
+        return map;
+    }
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    @RequestMapping("selectAll")
+    @ResponseBody
+    public Map<String, Object> selectAll() {
+        Map<String, Object> map = new HashMap<>();
+        List<ZGoods> iPage = zGoodsService.selectAll();
+        map.put("data", iPage);
+        return map;
+    }
+
+    /**
+     * 根据编号查询
+     *
+     * @return
+     */
+    @RequestMapping("selectById")
+    @ResponseBody
+    public Map<String, Object> selectById(Integer gid) {
+        Map<String, Object> map = new HashMap<>();
+        ZGoods zGoods = zGoodsService.selectById(gid);
+        map.put("data", zGoods);
+        return map;
     }
 
     /**
@@ -46,6 +79,7 @@ public class ZGoodsController {
     @RequestMapping("add")
     @ResponseBody
     public Map<String, Object> insert(ZGoods zGoods) {
+        zGoods.setCreateTime(new Date());
         zGoodsService.insert(zGoods);
         return MessageBack.MSG(200, "新增成功");
     }
