@@ -1,54 +1,47 @@
 package com.zilansw.zilanshop.pojo;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zilansw.zilanshop.commons.TreeEntity;
+import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
+@Data
 @TableName("z_goodstype")
-public class ZGoodstype {
+public class ZGoodstype implements Serializable, TreeEntity<ZGoodstype> {
 
-  @TableId("gtypeid")
-  private long gtypeid;
-  private String gtypename;
-  private String iconimgpath;
-  private String description;
+    private static final long serialVersionUID = 4456941123445965950L;
 
+    @TableId("gtypeid")
+    private long gtypeid;
+    private String gtypename;
+    private String iconimgpath;
+    private String description;
+    private Integer parentid;
 
-  public long getGtypeid() {
-    return gtypeid;
-  }
+    @TableField(exist = false)
+    private List<ZGoodstype> nodes;
 
-  public void setGtypeid(long gtypeid) {
-    this.gtypeid = gtypeid;
-  }
-
-
-  public String getGtypename() {
-    return gtypename;
-  }
-
-  public void setGtypename(String gtypename) {
-    this.gtypename = gtypename;
-  }
+    @TableField(exist = false)
+    private List<ZGoodstype> children;
 
 
-  public String getIconimgpath() {
-    return iconimgpath;
-  }
+    @Override
+    public Object getValue() {
+        return this.gtypeid;
+    }
 
-  public void setIconimgpath(String iconimgpath) {
-    this.iconimgpath = iconimgpath;
-  }
+    @Override
+    public Object getLabel() {
+        return this.getGtypename();
+    }
 
+    @Override
+    public void setChildList(List<ZGoodstype> childList) {
 
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
+    }
 }

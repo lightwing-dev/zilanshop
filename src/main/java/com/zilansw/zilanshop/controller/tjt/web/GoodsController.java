@@ -34,15 +34,17 @@ public class GoodsController {
     @ResponseBody
     public Map<String,Object> selectByWeb(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname,Integer gtypeid) {
         Map<String,Object> map = new HashMap<>();
+        Map<String,Object> reulst = new HashMap<>();
         if (gname!=null && gname!=""){
             map.put("gname",gname);
         }
         if (gtypeid!=null){
             map.put("gtypeid",gtypeid);
         }
-        List<ZGoods> iPage = zGoodsService.getList(gname,((pageIndex-1)*limit), limit);
-        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(gname), iPage);
-        return MessageBack.DATA(200,"",pageBean);
+        List<ZGoods> iPage = zGoodsService.selectByWeb(map,((pageIndex-1)*limit), limit);
+//        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(gname), iPage);
+        reulst.put("data",iPage);
+        return reulst;
     }
 
     /**

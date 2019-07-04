@@ -67,6 +67,7 @@ public class ZGoodsService {
         QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
         return zGoodsDao.selectList(queryWrapper);
     }
+
     public List<ZGoods> selectByWeb(Map<String,Object> map, Integer pageIndex, Integer limit){
         return zGoodsDao.selectByWeb(map,pageIndex,limit);
     }

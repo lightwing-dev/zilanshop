@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,15 +35,15 @@ public class BannerController {
      */
     @RequestMapping("getList")
     @ResponseBody
-    public Map<String,Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String name) {
+    public Map<String, Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit) {
+        Map<String, Object> map = new HashMap<>();
         Page<ZBanner> page = new Page<>(pageIndex, limit);
         QueryWrapper<ZBanner> queryWrapper = new QueryWrapper<>();
-        if (name!="" && name!=null){
-            queryWrapper.eq("name",name);
-        }
+        queryWrapper.eq("status", 0);
         IPage<ZBanner> iPage = zBannerService.selectAll(page, queryWrapper);
-        PageBean pageBean = new PageBean((int) iPage.getCurrent(), (int) iPage.getSize(), Integer.parseInt(String.valueOf(iPage.getTotal())), Collections.singletonList(iPage.getRecords()));
-        return MessageBack.DATA(200,"",pageBean);
+//        PageBean pageBean = new PageBean((int) iPage.getCurrent(), (int) iPage.getSize(), Integer.parseInt(String.valueOf(iPage.getTotal())), Collections.singletonList());
+        map.put("data", iPage.getRecords());
+        return map;
     }
 
 }

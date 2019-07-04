@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,15 +35,17 @@ public class GoodstypeController {
      */
     @RequestMapping("getList")
     @ResponseBody
-    public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gtypename) {
+    public Map<String,Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "8") Integer limit, Integer parentid) {
+      Map<String,Object>map = new HashMap<>();
         Page<ZGoodstype> page = new Page<>(pageIndex, limit);
         QueryWrapper<ZGoodstype> queryWrapper = new QueryWrapper<>();
-        if (gtypename!="" && gtypename!=null){
-            queryWrapper.eq("gtypename", gtypename);
+        if (parentid==null){
+            queryWrapper.eq("parentid", 0);
         }
         IPage<ZGoodstype> iPage = zGoodstypeService.selectAll(page, queryWrapper);
         PageBean pageBean = new PageBean((int) iPage.getCurrent(), (int) iPage.getSize(), Integer.parseInt(String.valueOf(iPage.getTotal())), Collections.singletonList(iPage.getRecords()));
-        return pageBean;
+        map.put("data",iPage.getRecords());
+        return map;
     }
 
     /**

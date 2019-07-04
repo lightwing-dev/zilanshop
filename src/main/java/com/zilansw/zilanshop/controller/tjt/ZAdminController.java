@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Map;
  * @date 2019-06-26
  */
 @Controller
-@RequestMapping("zAdmin")
+@RequestMapping("admin/zAdmin")
 public class ZAdminController {
 
     @Autowired
@@ -33,15 +34,18 @@ public class ZAdminController {
      */
     @RequestMapping("getList")
     @ResponseBody
-    public PageBean selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit,String name) {
+    public Map<String,Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit,String name) {
+       Map<String,Object>map = new HashMap<>();
         Page<ZAdmin> page = new Page<>(pageIndex, limit);
         QueryWrapper<ZAdmin> queryWrapper = new QueryWrapper<>();
         if (name!="" && name!=null){
             queryWrapper.eq("name",name);
         }
         IPage<ZAdmin> iPage = ZAdminService.selectAll(page, queryWrapper);
-        PageBean pageBean = new PageBean((int) iPage.getCurrent(),(int) iPage.getSize(),Integer.parseInt(String.valueOf(iPage.getTotal())),Collections.singletonList(iPage.getRecords()));
-        return pageBean;
+        PageBean pageBean = new PageBean((int) iPage.getCurrent(),(int) iPage.getSize(),Integer.parseInt(String.valueOf(iPage.getTotal())));
+        map.put("data",iPage.getRecords());
+        map.put("pageBean",pageBean);
+        return map;
     }
 
     /**
@@ -58,13 +62,13 @@ public class ZAdminController {
 
     /**
      * 修改管理员
-     * @param ZAdmin
+     * @param zAdmin
      * @return
      */
     @RequestMapping("update")
     @ResponseBody
-    public Map<String, Object> update(ZAdmin ZAdmin){
-        ZAdminService.update(ZAdmin);
+    public Map<String, Object> update(ZAdmin zAdmin){
+        ZAdminService.update(zAdmin);
         return MessageBack.MSG(200,"修改成功");
     }
 
@@ -76,6 +80,9 @@ public class ZAdminController {
     @RequestMapping("delete")
     @ResponseBody
     public Map<String, Object> delete(Integer aid){
+        if (aid==1){
+            return MessageBack.MSG(403,"超级管理员禁止删除");
+        }
         ZAdminService.delete(aid);
         return MessageBack.MSG(200,"删除成功");
     }

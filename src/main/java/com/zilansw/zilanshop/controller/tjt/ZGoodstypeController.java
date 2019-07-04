@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zilansw.zilanshop.commons.MessageBack;
 import com.zilansw.zilanshop.commons.PageBean;
+import com.zilansw.zilanshop.commons.TreeParser;
 import com.zilansw.zilanshop.commons.UPLOAD;
 import com.zilansw.zilanshop.pojo.ZGoodstype;
 import com.zilansw.zilanshop.service.tjt.ZGoodstypeService;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,16 +55,42 @@ public class ZGoodstypeController {
     }
 
     /**
-     * 根据编号查询
+     * 根据父级编号查询
      *
      * @return
      */
-    @RequestMapping("selectById")
+    @RequestMapping("selectByParentId")
     @ResponseBody
-    public Map<String, Object> selectById(Integer gtypeid) {
+    public Map<String, Object> selectById() {
         Map<String, Object> map = new HashMap<>();
-        ZGoodstype iPage = zGoodstypeService.selectById(gtypeid);
-        map.put("data", iPage);
+        //查询列表数据
+        List<ZGoodstype> menuList = null;
+        QueryWrapper<ZGoodstype> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.eq("parentid", 0);
+        menuList = zGoodstypeService.getAllMenuList(null);
+        List<ZGoodstype> menus = TreeParser.getTreeList("0", menuList);
+        for (ZGoodstype str : menus) {
+            if (str.getChildren().size() != 0) {
+                for (ZGoodstype str1 : str.getChildren()) {
+                    if (str1.getChildren().size() != 0) {
+                        for (ZGoodstype str2 : str1.getChildren()) {
+                            if (str2.getChildren().size() != 0) {
+
+                            } else {
+                                str2.setChildren(null);
+                            }
+                        }
+                    } else {
+                        str1.setChildren(null);
+                    }
+                }
+            } else {
+                str.setChildren(null);
+
+            }
+
+        }
+        map.put("data", menus);
         return map;
     }
 
