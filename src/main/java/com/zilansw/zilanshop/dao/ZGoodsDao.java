@@ -25,8 +25,30 @@ public interface ZGoodsDao extends BaseMapper<ZGoods> {
      */
     List<ZGoods> selectPage(@Param("gname") String gname, @Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
 
+    /**
+     * 最新商品
+     * @param pageIndex
+     * @param limit
+     * @return
+     */
+    List<ZGoods> selectNewCreateTine(@Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
+
+
+    /**
+     * 热销商品
+     * @param pageIndex
+     * @param limit
+     * @return
+     */
+    List<ZGoods> selectSalesVolume(@Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
+
+
     List<ZGoods> selectByWeb(@Param("map")Map<String,Object> map, @Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
 
     List<ZGoods> getById(@Param("gid") Integer gid);
+
+    int insertGood(@Param("good")ZGoods zGoods);
+
+
 
 }

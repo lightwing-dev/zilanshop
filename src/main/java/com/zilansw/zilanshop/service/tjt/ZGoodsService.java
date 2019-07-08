@@ -17,7 +17,7 @@ import java.util.Map;
  * @date 2019-06-26
  */
 @Service
-@Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.REQUIRED,rollbackFor = Exception.class,noRollbackFor = RuntimeException.class)
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, rollbackFor = Exception.class, noRollbackFor = RuntimeException.class)
 public class ZGoodsService {
 
     @Autowired
@@ -25,67 +25,82 @@ public class ZGoodsService {
 
     /**
      * 新增商品
+     *
      * @param zGoods
      * @return
      */
-    public int insert(ZGoods zGoods){
+    public int insert(ZGoods zGoods) {
         return zGoodsDao.insert(zGoods);
     }
 
     /**
      * 修改商品
+     *
      * @param zGoods
      * @return
      */
-    public int update(ZGoods zGoods){
+    public int update(ZGoods zGoods) {
         return zGoodsDao.updateById(zGoods);
     }
 
     /**
      * 删除商品
+     *
      * @param aid
      * @return
      */
-    public int delete(Integer aid){
+    public int delete(Integer aid) {
         return zGoodsDao.deleteById(aid);
     }
 
     /**
      * 查询所有/根据条件查询
+     *
      * @param
      * @return
      */
-    public List<ZGoods> getList(String gname, Integer pageIndex, Integer limit){
-        return zGoodsDao.selectPage(gname,pageIndex,limit);
+    public List<ZGoods> getList(String gname, Integer pageIndex, Integer limit) {
+        return zGoodsDao.selectPage(gname, pageIndex, limit);
     }
 
+    public List<ZGoods> getNewCreateTime(Integer pageIndex, Integer limit) {
+        return zGoodsDao.selectNewCreateTine(pageIndex, limit);
+    }
+
+    public List<ZGoods> selectSalesVolume(Integer pageIndex, Integer limit) {
+        return zGoodsDao.selectSalesVolume(pageIndex, limit);
+    }
     /**
      * 查询所有
+     *
      * @return
      */
-    public List<ZGoods> selectAll(){
+    public List<ZGoods> selectAll() {
         QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
         return zGoodsDao.selectList(queryWrapper);
     }
 
-    public List<ZGoods> selectByWeb(Map<String,Object> map, Integer pageIndex, Integer limit){
-        return zGoodsDao.selectByWeb(map,pageIndex,limit);
+    public List<ZGoods> selectByWeb(Map<String, Object> map, Integer pageIndex, Integer limit) {
+        return zGoodsDao.selectByWeb(map, pageIndex, limit);
     }
 
-    public int selectCount(String gname){
+    public int selectCount(String gname) {
         QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
-        if (gname!="" && gname!=null){
-            queryWrapper.eq("gname",gname);
+        if (gname != "" && gname != null) {
+            queryWrapper.eq("gname", gname);
         }
         return zGoodsDao.selectCount(queryWrapper);
     }
 
-    public ZGoods selectById(Integer gid){
-       return zGoodsDao.selectById(gid);
+    public ZGoods selectById(Integer gid) {
+        return zGoodsDao.selectById(gid);
     }
 
-    public List<ZGoods> getById(Integer gid){
+    public List<ZGoods> getById(Integer gid) {
         return zGoodsDao.getById(gid);
     }
 
+    public int insertGood(ZGoods zGoods) {
+        return zGoodsDao.insertGood(zGoods);
+    }
 }

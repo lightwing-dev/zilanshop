@@ -1,92 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zilansw.zilanshop.dao.ZGoodsDao">
-  <resultMap id="BaseResultMap" type="com.zilansw.zilanshop.pojo.ZGoods">
-    <id column="gid" jdbcType="INTEGER" property="gid" />
-    <result column="gtypeid" jdbcType="INTEGER" property="gtypeid" />
-    <result column="gname" jdbcType="VARCHAR" property="gname" />
-    <result column="price" jdbcType="DOUBLE" property="price" />
-    <result column="create_time" property="createTime" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="gdetail" jdbcType="LONGVARCHAR" property="gdetail" />
-    <association property="goodstype" column="gtypeid" select="queryZGtype"></association>
-    <association property="stock" column="gid" select="queryZStock"></association>
-    <collection property="zEvaluationList" column="gid" select="queryZEvaluationList"></collection>
-  </resultMap>
-  <resultMap id="ZGoodstypeMap" type="com.zilansw.zilanshop.pojo.ZGoodstype">
-    <id column="gtypeid" jdbcType="INTEGER" property="gtypeid" />
-    <result column="gtypename" jdbcType="VARCHAR" property="gtypename" />
-    <result column="iconimgpath" jdbcType="VARCHAR" property="iconimgpath" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.zilansw.zilanshop.pojo.ZGoods">
+        <id column="gid" jdbcType="INTEGER" property="gid"/>
+        <result column="gtypeid" jdbcType="INTEGER" property="gtypeid"/>
+        <result column="gname" jdbcType="VARCHAR" property="gname"/>
+        <result column="price" jdbcType="DOUBLE" property="price"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="gdetail" jdbcType="LONGVARCHAR" property="gdetail"/>
+        <association property="goodstype" column="gtypeid" select="queryZGtype"></association>
+        <association property="stock" column="gid" select="queryZStock"></association>
+        <collection property="zEvaluationList" column="gid" select="queryZEvaluationList"></collection>
+        <collection property="zGoodsimage" column="gid" select="queryZGoodsimage"></collection>
+    </resultMap>
+    <resultMap id="ZGoodstypeMap" type="com.zilansw.zilanshop.pojo.ZGoodstype">
+        <id column="gtypeid" jdbcType="INTEGER" property="gtypeid"/>
+        <result column="gtypename" jdbcType="VARCHAR" property="gtypename"/>
+        <result column="iconimgpath" jdbcType="VARCHAR" property="iconimgpath"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
 
-  <resultMap id="ZStockMap" type="com.zilansw.zilanshop.pojo.ZStock">
-    <id column="sid" jdbcType="INTEGER" property="sid" />
-    <result column="gid" jdbcType="INTEGER" property="gid" />
-    <result column="stocknum" jdbcType="INTEGER" property="stocknum" />
-  </resultMap>
+    <resultMap id="ZStockMap" type="com.zilansw.zilanshop.pojo.ZStock">
+        <id column="sid" jdbcType="INTEGER" property="sid"/>
+        <result column="gid" jdbcType="INTEGER" property="gid"/>
+        <result column="stocknum" jdbcType="INTEGER" property="stocknum"/>
+    </resultMap>
 
-  <resultMap id="ZEvaluationMap" type="com.zilansw.zilanshop.pojo.ZEvaluation">
-    <id column="eid" jdbcType="INTEGER" property="eid"/>
-    <result column="star" jdbcType="DOUBLE" property="star"/>
-    <result column="content" jdbcType="LONGVARCHAR" property="content"/>
-    <result column="gid" jdbcType="DOUBLE" property="gid"/>
-    <result column="uid" jdbcType="DOUBLE" property="uid"/>
-    <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
-    <association property="zUser" column="uid" select="queryZUser"></association>
-    <collection property="evaluationimages" column="eid" select="queryEvaluationimages"></collection>
-  </resultMap>
+    <resultMap id="ZEvaluationMap" type="com.zilansw.zilanshop.pojo.ZEvaluation">
+        <id column="eid" jdbcType="INTEGER" property="eid"/>
+        <result column="star" jdbcType="DOUBLE" property="star"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="gid" jdbcType="DOUBLE" property="gid"/>
+        <result column="uid" jdbcType="DOUBLE" property="uid"/>
+        <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
+        <association property="zUser" column="uid" select="queryZUser"></association>
+        <collection property="evaluationimages" column="eid" select="queryEvaluationimages"></collection>
+    </resultMap>
 
-  <resultMap id="ZUserMap" type="com.zilansw.zilanshop.pojo.ZUser">
-    <id column="uid" jdbcType="INTEGER" property="uid"/>
-    <result column="username" property="username"/>
-  </resultMap>
+    <resultMap id="ZUserMap" type="com.zilansw.zilanshop.pojo.ZUser">
+        <id column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="username" property="username"/>
+    </resultMap>
 
-  <resultMap id="ZEvaluationimageMap" type="com.zilansw.zilanshop.pojo.ZEvaluationimage">
-    <id column="eiid" jdbcType="INTEGER" property="eiid"/>
-    <result column="eid" jdbcType="VARCHAR" property="eid"/>
-    <result column="imgpath" jdbcType="VARCHAR" property="imgpath"/>
-    <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="ZGoodsimageMap" type="com.zilansw.zilanshop.pojo.ZGoodsimage">
+        <id column="giid" property="giid"/>
+        <result column="gid" property="gid"/>
+        <result column="imgpath" property="imgpath"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="ZEvaluationimageMap" type="com.zilansw.zilanshop.pojo.ZEvaluationimage">
+        <id column="eiid" jdbcType="INTEGER" property="eiid"/>
+        <result column="eid" jdbcType="VARCHAR" property="eid"/>
+        <result column="imgpath" jdbcType="VARCHAR" property="imgpath"/>
+        <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     gid, gtypeid, gname, price, create_time, `status`,`gdetail`,create_time
   </sql>
-  <select id="selectPage" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include> from z_goods
-    limit #{pageIndex},#{limit}
-  </select>
+    <insert id="insertGood" useGeneratedKeys="true" keyProperty="gid" parameterType="com.zilansw.zilanshop.pojo.ZGoods">
+        insert into z_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="good.gtypeid != null">
+                gtypeid,
+            </if>
+            <if test="good.gname != null">
+                gname,
+            </if>
+            <if test="good.gdetail != null">
+                `gdetail`,
+            </if>
+            <if test="good.price != null">
+                price,
+            </if>
+            <if test="good.createTime != null">
+                create_time,
+            </if>
+            <if test="good.status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="good.gtypeid != null">
+                #{good.gtypeid},
+            </if>
+            <if test="good.gname != null">
+                #{good.gname},
+            </if>
+            <if test="good.gdetail != null">
+                #{good.gdetail},
+            </if>
+            <if test="good.price != null">
+                #{good.price},
+            </if>
+            <if test="good.createTime != null">
+                #{good.createTime},
+            </if>
+            <if test="good.status != null">
+                #{good.status},
+            </if>
 
-  <select id="queryZGtype" resultMap="ZGoodstypeMap">
+        </trim>
+    </insert>
+    <select id="selectPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from z_goods
+        limit #{pageIndex},#{limit}
+    </select>
+
+    <select id="queryZGtype" resultMap="ZGoodstypeMap">
     select * from z_goodstype where gtypeid = #{gtypeid}
   </select>
-  <select id="queryZStock" resultMap="ZStockMap">
+    <select id="queryZStock" resultMap="ZStockMap">
     select * from z_stock where gid = #{gid}
   </select>
-  <select id="queryZEvaluationList" resultMap="ZEvaluationMap">
+    <select id="queryZEvaluationList" resultMap="ZEvaluationMap">
     select * from z_evaluation where gid = #{gid}
   </select>
 
-  <select id="queryZUser" resultMap="ZUserMap">
+    <select id="queryZUser" resultMap="ZUserMap">
         select UID, USERNAME from z_user where uid=#{uid}
     </select>
 
-  <select id="queryEvaluationimages" resultMap="ZEvaluationimageMap">
+    <select id="queryEvaluationimages" resultMap="ZEvaluationimageMap">
         select * from z_evaluationimage where eid=#{eid}
     </select>
-    <select id="selectByWeb" resultMap="BaseResultMap">
-      select <include refid="Base_Column_List"></include> from z_goods
-      <where>
-        <if test="map.gname!=null and map.gname!=''">
-         and gname = #{map.gname}
-        </if>
-        <if test="map.gtypeid!=null">
-          and gtypeid = #{map.gtypeid}
-        </if>
-      </where>
-      limit #{pageIndex},#{limit}
-    </select>
-  <select id="getById" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include> from z_goods where gid = #{gid}
+    <select id="queryZGoodsimage" resultMap="ZGoodsimageMap">
+    select * from z_goodsimage where gid=#{gid}
   </select>
+    <select id="selectByWeb" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from z_goods
+        <where>
+            <if test="map.gname!=null and map.gname!=''">
+                and gname = #{map.gname}
+            </if>
+            <if test="map.gtypeid!=null">
+                and gtypeid = #{map.gtypeid}
+            </if>
+        </where>
+        limit #{pageIndex},#{limit}
+    </select>
+    <select id="getById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from z_goods where gid = #{gid}
+    </select>
+    <select id="selectNewCreateTine" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from z_goods
+        ORDER BY create_time DESC
+        limit #{pageIndex},#{limit}
+    </select>
+    <select id="selectSalesVolume" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from z_goods
+        ORDER BY sales_volume DESC
+        limit #{pageIndex},#{limit}
+
+    </select>
+
 
 </mapper>

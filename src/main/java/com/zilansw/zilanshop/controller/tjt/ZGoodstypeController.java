@@ -67,7 +67,7 @@ public class ZGoodstypeController {
         List<ZGoodstype> menuList = null;
         QueryWrapper<ZGoodstype> queryWrapper = new QueryWrapper<>();
 //        queryWrapper.eq("parentid", 0);
-        menuList = zGoodstypeService.getAllMenuList(null);
+        menuList = zGoodstypeService.getAllMenuList(null,queryWrapper);
         List<ZGoodstype> menus = TreeParser.getTreeList("0", menuList);
         for (ZGoodstype str : menus) {
             if (str.getChildren().size() != 0) {
@@ -75,7 +75,6 @@ public class ZGoodstypeController {
                     if (str1.getChildren().size() != 0) {
                         for (ZGoodstype str2 : str1.getChildren()) {
                             if (str2.getChildren().size() != 0) {
-
                             } else {
                                 str2.setChildren(null);
                             }
@@ -86,9 +85,7 @@ public class ZGoodstypeController {
                 }
             } else {
                 str.setChildren(null);
-
             }
-
         }
         map.put("data", menus);
         return map;

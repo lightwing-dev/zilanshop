@@ -79,8 +79,7 @@ public class ZGoodstypeService {
     /**
      * 获取所有商品分类列表
      */
-    public List<ZGoodstype> getAllMenuList(List<Long> menuIdList) {
-        QueryWrapper<ZGoodstype> queryWrapper = new QueryWrapper<>();
+    public List<ZGoodstype> getAllMenuList(List<Long> menuIdList,QueryWrapper<ZGoodstype> queryWrapper ) {
 //        queryWrapper.eq("parentid", 0);
         //查询根菜单列表
         List<ZGoodstype> menuList = zGoodstypeDao.selectList(queryWrapper);

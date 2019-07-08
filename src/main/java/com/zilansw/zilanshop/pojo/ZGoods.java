@@ -22,6 +22,9 @@ public class ZGoods {
     private Date createTime;
     private long status;
 
+
+    @TableField(exist = false)
+    private String img;
     /**
      * 商品类型
      */
@@ -37,4 +40,6 @@ public class ZGoods {
     @TableField(exist = false)
     private List<ZEvaluation> zEvaluationList;
 
+    @TableField(exist = false)
+    private List<ZGoodsimage> zGoodsimage;
 }
