@@ -37,4 +37,9 @@ public class WxPayConfig implements WXPayConfig {
     public int getHttpReadTimeoutMs() {
         return 0;
     }
+
+    public String getAppSecret()
+    {
+        return null;
+    }
 }

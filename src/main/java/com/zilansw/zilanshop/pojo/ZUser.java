@@ -1,6 +1,7 @@
 package com.zilansw.zilanshop.pojo;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -11,6 +12,7 @@ public class ZUser {
   private long uid;
   private String username;
   private String password;
+  @JSONField(format = "yyyy-MM-dd HH:mm:ss")
   private java.sql.Timestamp createTime;
   private String openid;
   private String headimg;

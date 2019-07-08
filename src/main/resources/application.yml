@@ -1,5 +1,7 @@
 server:
   port: 8090
+  tomcat:
+    uri-encoding: UTF-8
 mybatis-plus:
   mapper-locations: classpath:/mybatis/mappers/*.xml
   type-aliases-package: com.zilansw.zilanshop.pojo
@@ -10,7 +12,11 @@ spring:
     url: jdbc:mysql://db.lightidc.com:10126/zilansw_shop?useUnicode=true&allowMultiQueries=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
     username: root
     password: Chao201019!!
-
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
 logging:
   level:
     com.zilansw.zilanshop.dao: DEBUG

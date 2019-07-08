@@ -21,4 +21,6 @@ public class Constant
      * 查找的系统设置ID
      */
     public static final Integer CONFIGID=1;
+
+    public static final String HDURL="http://wxshop.zilansw.com";
 }
