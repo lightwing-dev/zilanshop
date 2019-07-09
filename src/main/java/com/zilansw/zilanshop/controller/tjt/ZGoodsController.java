@@ -88,30 +88,28 @@ public class ZGoodsController {
     @ResponseBody
     public Map<String, Object> insert(ZGoods zGoods, @RequestParam(value = "imgFile", required = false) MultipartFile[] file) {
         ZGoodsimage zGoodsimage = new ZGoodsimage();
-        StringBuffer img = new StringBuffer();
-        for(int i = 0;i<file.length;i++) {
-            MultipartFile files = file[i];
-            if (files != null) {
-                if (StringUtils.isNotBlank(files.getOriginalFilename())) {
-                    zGoodsimage.setImgpath(null);
-                    if (zGoodsimage.getImgpath() != null) {
-                        String deletepath = zGoodsimage.getImgpath().substring(1, zGoodsimage.getImgpath().length());
-                        UPLOAD.deleteFile(deletepath);
-                    }
-                    Map<String, Object> upload = UPLOAD.UPLOADFILE(files);
-                    if ((int) upload.get("code") == 200) {
-                        img.append("/pictures/" + upload.get("filename")+",");
+        zGoods.setCreateTime(new Date());
+        int j = zGoodsService.insertGood(zGoods);
+        if (j > 0) {
+            for (int i = 0; i < file.length; i++) {
+                MultipartFile files = file[i];
+                if (files != null) {
+                    if (StringUtils.isNotBlank(files.getOriginalFilename())) {
+                        zGoodsimage.setImgpath(null);
+                        if (zGoodsimage.getImgpath() != null) {
+                            String deletepath = zGoodsimage.getImgpath().substring(1, zGoodsimage.getImgpath().length());
+                            UPLOAD.deleteFile(deletepath);
+                        }
+                        Map<String, Object> upload = UPLOAD.UPLOADFILE(files);
+                        if ((int) upload.get("code") == 200) {
+                            zGoodsimage.setImgpath("/pictures/" + upload.get("filename"));
+                            zGoodsimage.setGid(Integer.parseInt(String.valueOf(zGoods.getGid())));
+                            zGoodsimage.setCreateTime(new Date());
+                            zGoodsimageService.insert(zGoodsimage);
+                        }
                     }
                 }
             }
-        }
-        zGoods.setCreateTime(new Date());
-        int i = zGoodsService.insertGood(zGoods);
-        if (i > 0) {
-            zGoodsimage.setImgpath(img.toString());
-            zGoodsimage.setGid(Integer.parseInt(String.valueOf(zGoods.getGid())));
-            zGoodsimage.setCreateTime(new Date());
-            zGoodsimageService.insert(zGoodsimage);
         }
         return MessageBack.MSG(200, "新增成功");
     }
@@ -124,31 +122,40 @@ public class ZGoodsController {
      */
     @RequestMapping("update")
     @ResponseBody
-    public Map<String, Object> update(ZGoods zGoods, @RequestParam(value = "imgFile", required = false) MultipartFile file) {
+    public Map<String, Object> update(ZGoods zGoods, @RequestParam(value = "imgFile", required = false) MultipartFile[] file) {
         ZGoodsimage zGoodsimage = new ZGoodsimage();
-        if (file != null) {
-            if (StringUtils.isNotBlank(file.getOriginalFilename())) {
-                zGoodsimage.setImgpath(null);
-                if (zGoodsimage.getImgpath() != null) {
-                    String deletepath = zGoodsimage.getImgpath().substring(1, zGoodsimage.getImgpath().length());
-                    UPLOAD.deleteFile(deletepath);
-                }
-                Map<String, Object> upload = UPLOAD.UPLOADFILE(file);
-                if ((int) upload.get("code") == 200) {
-                    zGoodsimage.setImgpath("/pictures/" + upload.get("filename")+",");
-                    ZGoodsimage result = zGoodsimageService.selectById(Long.valueOf(zGoodsimage.getGiid()));
-                    if (result.getImgpath() != null) {
-                        UPLOAD.deleteFile(result.getImgpath());
+        List<ZGoodsimage> result = zGoodsimageService.selectByGid(Long.valueOf(zGoods.getGid()));
+        if (file.length>0){
+            zGoodsimageService.deleteByGid(Integer.valueOf(Long.valueOf(zGoods.getGid()).toString()));
+        }
+        int j = zGoodsService.update(zGoods);
+        if (j > 0) {
+            for (int i = 0; i < file.length; i++) {
+                MultipartFile files = file[i];
+                if (files != null) {
+                    if (StringUtils.isNotBlank(files.getOriginalFilename())) {
+                        zGoodsimage.setImgpath(null);
+                        if (zGoodsimage.getImgpath() != null) {
+                            String deletepath = zGoodsimage.getImgpath().substring(1, zGoodsimage.getImgpath().length());
+                            UPLOAD.deleteFile(deletepath);
+                        }
+                        Map<String, Object> upload = UPLOAD.UPLOADFILE(files);
+                        if ((int) upload.get("code") == 200) {
+                            zGoodsimage.setCreateTime(new Date());
+                            zGoodsimage.setImgpath("/pictures/" + upload.get("filename"));
+                            if (result.size() != 0) {
+                                for (ZGoodsimage str : result) {
+                                    UPLOAD.deleteFile(str.getImgpath());
+                                }
+                            }
+                            zGoodsimage.setGid(Integer.parseInt(Long.valueOf(zGoods.getGid()).toString()));
+                            zGoodsimageService.insert(zGoodsimage);
+                        }
                     }
                 }
             }
         }
-        int i=zGoodsService.update(zGoods);
-        if (i>0){
-            if (file!=null){
-                zGoodsimageService.update(zGoodsimage);
-            }
-        }
+
         return MessageBack.MSG(200, "修改成功");
     }
 

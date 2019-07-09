@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,55 +31,61 @@ public class AddressController {
 
     /**
      * 分页查询当前用户的收货地址
+     *
      * @return
      */
     @RequestMapping("getList")
     @ResponseBody
     public Map<String, Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, Integer uid) {
+        Map<String, Object> map = new HashMap<>();
         Page<ZAddress> page = new Page<>(pageIndex, limit);
         QueryWrapper<ZAddress> queryWrapper = new QueryWrapper<>();
-        if (uid==null){
-           return MessageBack.MSG(401,"查询是遇到了一个预期外的错误");
+        if (uid == null) {
+            return MessageBack.MSG(401, "查询是遇到了一个预期外的错误");
         }
-        queryWrapper.eq("uid",uid);
+        queryWrapper.eq("uid", uid);
         IPage<ZAddress> iPage = zAddressService.selectAll(page, queryWrapper);
-        PageBean pageBean = new PageBean((int) iPage.getCurrent(),(int) iPage.getSize(),Integer.parseInt(String.valueOf(iPage.getTotal())),Collections.singletonList(iPage.getRecords()));
-        return MessageBack.DATA(200,"",pageBean);
+        PageBean pageBean = new PageBean((int) iPage.getCurrent(), (int) iPage.getSize(), Integer.parseInt(String.valueOf(iPage.getTotal())), Collections.singletonList(iPage.getRecords()));
+        map.put("data", iPage.getRecords());
+        return map;
     }
 
     /**
      * 新增收货地址
+     *
      * @param zAddress
      * @return
      */
     @RequestMapping("add")
     @ResponseBody
-    public Map<String, Object> insert(ZAddress zAddress){
+    public Map<String, Object> insert(ZAddress zAddress) {
         zAddressService.insert(zAddress);
-        return MessageBack.MSG(200,"新增成功");
+        return MessageBack.MSG(200, "新增成功");
     }
 
     /**
      * 修改收货地址
+     *
      * @param zAddress
      * @return
      */
     @RequestMapping("update")
     @ResponseBody
-    public Map<String, Object> update(ZAddress zAddress){
+    public Map<String, Object> update(ZAddress zAddress) {
         zAddressService.update(zAddress);
-        return MessageBack.MSG(200,"修改成功");
+        return MessageBack.MSG(200, "修改成功");
     }
 
     /**
      * 删除收货地址
+     *
      * @param aid
      * @return
      */
     @RequestMapping("delete")
     @ResponseBody
-    public Map<String, Object> delete(Integer aid){
+    public Map<String, Object> delete(Integer aid) {
         zAddressService.delete(aid);
-        return MessageBack.MSG(200,"删除成功");
+        return MessageBack.MSG(200, "删除成功");
     }
 }

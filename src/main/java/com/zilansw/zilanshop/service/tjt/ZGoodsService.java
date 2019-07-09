@@ -70,6 +70,7 @@ public class ZGoodsService {
     public List<ZGoods> selectSalesVolume(Integer pageIndex, Integer limit) {
         return zGoodsDao.selectSalesVolume(pageIndex, limit);
     }
+
     /**
      * 查询所有
      *
@@ -103,4 +104,5 @@ public class ZGoodsService {
     public int insertGood(ZGoods zGoods) {
         return zGoodsDao.insertGood(zGoods);
     }
+
 }

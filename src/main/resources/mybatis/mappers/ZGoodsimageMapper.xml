@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zilansw.zilanshop.dao.ZGoodsimageDao">
+    <resultMap id="ZGoodsimageMap" type="com.zilansw.zilanshop.pojo.ZGoodsimage">
+        <id column="giid" property="giid"/>
+        <result column="gid" property="gid"/>
+        <result column="imgpath" property="imgpath"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <delete id="deleteByGid">
+        delete from z_goodsimage where gid=#{gid}
+    </delete>
+    <select id="selectByGid" resultMap="ZGoodsimageMap">
+        select * from z_goodsimage where gid=#{gid}
+    </select>
+
+</mapper>

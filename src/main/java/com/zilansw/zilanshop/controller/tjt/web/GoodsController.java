@@ -70,7 +70,7 @@ public class GoodsController {
         for (ZGoods str : iPage) {
             if (str.getZGoodsimage().size()!=0){
                 for (ZGoodsimage str1 : str.getZGoodsimage()) {
-                    str.setImg(str1.getImgpath().substring(0, str1.getImgpath().indexOf(",")));
+                    str.setImg(str1.getImgpath());
                 }
             }
         }
@@ -91,7 +91,7 @@ public class GoodsController {
         for (ZGoods str : iPage) {
             if (str.getZGoodsimage().size()!=0){
                 for (ZGoodsimage str1 : str.getZGoodsimage()) {
-                    str.setImg(str1.getImgpath().substring(0, str1.getImgpath().indexOf(",")));
+                    str.setImg(str1.getImgpath());
                 }
             }
         }
@@ -113,6 +113,7 @@ public class GoodsController {
             return MessageBack.MSG(401, "在查询是遇到了一个预期外的错误");
         }
         List<ZGoods> zGoods = zGoodsService.getById(gid);
-        return MessageBack.DATA(200, "", zGoods);
+        map.put("data",zGoods);
+        return map;
     }
 }

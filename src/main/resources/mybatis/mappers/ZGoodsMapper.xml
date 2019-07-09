@@ -103,6 +103,9 @@
 
         </trim>
     </insert>
+    <delete id="deleteByGid">
+        delete from z_goodsimage where gid=#{gid}
+    </delete>
     <select id="selectPage" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"></include> from z_goods
         limit #{pageIndex},#{limit}
