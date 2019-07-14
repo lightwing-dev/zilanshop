@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tjt
@@ -54,15 +55,11 @@ public class ZEvaluationService {
      * @param
      * @return
      */
-    public List<ZEvaluation> selectAll(String gname, Integer pageIndex, Integer limit){
-        return zEvaluationDao.selectPage(gname,pageIndex,limit);
+    public List<ZEvaluation> selectAll(Map<String,Object> result, Integer pageIndex, Integer limit){
+        return zEvaluationDao.selectPage(result,pageIndex,limit);
     }
 
-    public int selectCount(String gname){
-        QueryWrapper<ZEvaluation> queryWrapper = new QueryWrapper<>();
-        if (gname!="" && gname!=null){
-            queryWrapper.eq("gname",gname);
-        }
+    public int selectCount(QueryWrapper<ZEvaluation> queryWrapper){
         return zEvaluationDao.selectCount(queryWrapper);
     }
 

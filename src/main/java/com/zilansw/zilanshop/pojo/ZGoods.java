@@ -22,6 +22,7 @@ public class ZGoods {
     private Date createTime;
     private long status;
 
+    private Integer salesVolume;
 
     @TableField(exist = false)
     private String img;

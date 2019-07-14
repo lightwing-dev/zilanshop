@@ -1,5 +1,6 @@
 package com.zilansw.zilanshop.controller.tjt.web;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zilansw.zilanshop.commons.MessageBack;
 import com.zilansw.zilanshop.commons.PageBean;
 import com.zilansw.zilanshop.pojo.ZGoods;
@@ -31,31 +32,91 @@ public class GoodsController {
      *
      * @return
      */
-    @RequestMapping("getList")
+    @RequestMapping("getByName")
     @ResponseBody
-    public Map<String, Object> selectByWeb(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname, Integer gtypeid) {
+    public Map<String, Object> selectByWeb(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "8") Integer limit, String gname, Integer gtypeid, String price, String salesVolume) {
+        QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
+        Map<String, Object> reulst = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
+        if (gname != null && gname != "") {
+            map.put("gname", "%" + gname + "%");
+        }
+        if (gtypeid != null) {
+            map.put("gtypeid", gtypeid);
+        }
+        if (price != null && price != "") {
+            map.put("price", price);
+        }
+        if (salesVolume != null && salesVolume != "") {
+            map.put("salesVolume", salesVolume);
+        }
+        List<ZGoods> iPage = zGoodsService.selectByWeb(map, ((pageIndex - 1) * limit), limit);
+        if (gname != "" && gname != null) {
+            queryWrapper.like("gname", gname);
+        }
+        if (gtypeid != null) {
+            queryWrapper.eq("gtypeid", gtypeid);
+        }
+        if (price.equals("desc")) {
+            reulst.put("price", "asc");
+            queryWrapper.orderByDesc("price");
+        }
+        if (price.equals("asc")) {
+            reulst.put("price", "desc");
+            queryWrapper.orderByAsc("price");
+        }
+        if (salesVolume.equals("desc")) {
+            reulst.put("salesVolume", "asc");
+            queryWrapper.orderByDesc("sales_volume");
+        }
+        if (salesVolume.equals("asc")) {
+            reulst.put("salesVolume", "desc");
+            queryWrapper.orderByAsc("sales_volume");
+        }
+        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(queryWrapper));
+        for (ZGoods str : iPage) {
+            if (str.getZGoodsimage().size() != 0) {
+                for (ZGoodsimage str1 : str.getZGoodsimage()) {
+                    str.setImg(str1.getImgpath());
+                }
+            }
+        }
+        reulst.put("pageBean", pageBean);
+        reulst.put("data", iPage);
+        return reulst;
+    }
+
+    /**
+     * 分页查询
+     *
+     * @return
+     */
+    @RequestMapping("getByTypeId")
+    @ResponseBody
+    public Map<String, Object> getByTypeId(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "8") Integer limit, Integer gtypeid) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> reulst = new HashMap<>();
-        if (gname != null && gname != "") {
-            map.put("gname", gname);
-        }
+        QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
         if (gtypeid != null) {
             map.put("gtypeid", gtypeid);
         }
         List<ZGoods> iPage = zGoodsService.selectByWeb(map, ((pageIndex - 1) * limit), limit);
 
-//        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(gname), iPage);
+        if (gtypeid != null) {
+            queryWrapper.eq("gtypeid", gtypeid);
+        }
+        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(queryWrapper));
         for (ZGoods str : iPage) {
-            if (str.getZGoodsimage().size()!=0){
+            if (str.getZGoodsimage().size() != 0) {
                 for (ZGoodsimage str1 : str.getZGoodsimage()) {
-                    str.setImg(str1.getImgpath().substring(0, str1.getImgpath().indexOf(",")));
+                    str.setImg(str1.getImgpath());
                 }
             }
         }
+        reulst.put("pageBean", pageBean);
         reulst.put("data", iPage);
         return reulst;
     }
-
 
     /**
      * 最新商品
@@ -68,7 +129,7 @@ public class GoodsController {
         Map<String, Object> reulst = new HashMap<>();
         List<ZGoods> iPage = zGoodsService.getNewCreateTime(((pageIndex - 1) * limit), limit);
         for (ZGoods str : iPage) {
-            if (str.getZGoodsimage().size()!=0){
+            if (str.getZGoodsimage().size() != 0) {
                 for (ZGoodsimage str1 : str.getZGoodsimage()) {
                     str.setImg(str1.getImgpath());
                 }
@@ -89,7 +150,7 @@ public class GoodsController {
         Map<String, Object> reulst = new HashMap<>();
         List<ZGoods> iPage = zGoodsService.selectSalesVolume(((pageIndex - 1) * limit), limit);
         for (ZGoods str : iPage) {
-            if (str.getZGoodsimage().size()!=0){
+            if (str.getZGoodsimage().size() != 0) {
                 for (ZGoodsimage str1 : str.getZGoodsimage()) {
                     str.setImg(str1.getImgpath());
                 }
@@ -113,7 +174,7 @@ public class GoodsController {
             return MessageBack.MSG(401, "在查询是遇到了一个预期外的错误");
         }
         List<ZGoods> zGoods = zGoodsService.getById(gid);
-        map.put("data",zGoods);
+        map.put("data", zGoods);
         return map;
     }
 }

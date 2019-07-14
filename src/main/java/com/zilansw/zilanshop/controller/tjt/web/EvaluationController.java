@@ -1,4 +1,4 @@
-package com.zilansw.zilanshop.controller.tjt;
+package com.zilansw.zilanshop.controller.tjt.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zilansw.zilanshop.commons.MessageBack;
@@ -18,32 +18,66 @@ import java.util.Map;
 
 /**
  * @author tjt
- * @date 2019-06-27
+ * @date 2019-07-11
  */
 @Controller
-@RequestMapping("admin/zEvaluation")
-public class ZEvaluationController {
+@RequestMapping("zEvaluation_web")
+public class EvaluationController {
 
     @Autowired
     private ZEvaluationService zEvaluationService;
 
+//    /**
+//     * 分页查询
+//     *
+//     * @return
+//     */
+//    @RequestMapping("getList")
+//    @ResponseBody
+//    public Map<String, Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
+//        Map<String, Object> map = new HashMap<>();
+//        QueryWrapper<ZEvaluation> queryWrapper = new QueryWrapper<>();
+//        if (gname != "" && gname != null) {
+//            queryWrapper.eq("gname", gname);
+//        }
+//        List<ZEvaluation> iPage = zEvaluationService.selectAll(gname, ((pageIndex - 1) * limit), limit);
+//        PageBean pageBean = new PageBean(pageIndex, limit, zEvaluationService.selectCount(queryWrapper));
+//        map.put("data", iPage);
+//        map.put("pageBean", pageBean);
+//        return map;
+//    }
+
     /**
-     * 分页查询
+     * 分页查询（根据商品编号查询）
      *
      * @return
      */
-    @RequestMapping("getList")
+    @RequestMapping("selectByGid")
     @ResponseBody
-    public Map<String, Object> selectAll(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit) {
+    public Map<String, Object> selectByGid(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "8") Integer limit, Integer gid, Integer star) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> result = new HashMap<>();
+        if (gid != null) {
+            result.put("gid", gid);
+        }
+        if (star != null) {
+            result.put("star", star);
+        }
+
         List<ZEvaluation> iPage = zEvaluationService.selectAll(result, ((pageIndex - 1) * limit), limit);
         QueryWrapper<ZEvaluation> queryWrapper = new QueryWrapper<>();
+        if (gid != null) {
+            queryWrapper.eq("gid", gid);
+        }
+        if (star != null) {
+            queryWrapper.eq("star", star);
+        }
         PageBean pageBean = new PageBean(pageIndex, limit, zEvaluationService.selectCount(queryWrapper));
         map.put("data", iPage);
         map.put("pageBean", pageBean);
         return map;
     }
+
 
     /**
      * 新增评论

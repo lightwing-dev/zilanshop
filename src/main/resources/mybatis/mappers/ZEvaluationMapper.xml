@@ -33,17 +33,27 @@
     <resultMap id="ZUserMap" type="com.zilansw.zilanshop.pojo.ZUser">
         <id column="uid" jdbcType="INTEGER" property="uid"/>
         <result column="username" property="username"/>
+        <result column="headimg" property="headimg"></result>
     </resultMap>
 
     <sql id="Base_Column_List">
     eid, star,content,gid,uid,create_time
   </sql>
     <select id="selectPage" resultMap="BaseResultMap">
-        select * from z_evaluation limit #{pageIndex},#{limit}
+        select * from z_evaluation
+        <where>
+            <if test="result.star!=null and result.star!=''">
+                and star=#{result.star}
+            </if>
+            <if test="result.gid!=null and result.gid!=''">
+                and gid=#{result.gid}
+            </if>
+        </where>
+        limit #{pageIndex},#{limit}
     </select>
 
     <select id="queryZUser" resultMap="ZUserMap">
-        select UID, USERNAME from z_user where uid=#{uid}
+        select UID, USERNAME,headimg from z_user where uid=#{uid}
     </select>
     <select id="queryEvaluationimages" resultMap="ZEvaluationimageMap">
         select * from z_evaluationimage where eid=#{eid}

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -17,11 +18,12 @@ import java.util.List;
 public interface ZEvaluationDao extends BaseMapper<ZEvaluation> {
     /**
      * 查询评价
-     * @param gname
+     * @param result
      * @param pageIndex
      * @param limit
      * @return
      */
-    List<ZEvaluation> selectPage(@Param("gname") String gname, @Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
+    List<ZEvaluation> selectPage(@Param("result") Map<String,Object> result, @Param("pageIndex")Integer pageIndex, @Param("limit")Integer limit);
+
 
 }

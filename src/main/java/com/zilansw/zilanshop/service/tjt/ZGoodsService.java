@@ -85,11 +85,7 @@ public class ZGoodsService {
         return zGoodsDao.selectByWeb(map, pageIndex, limit);
     }
 
-    public int selectCount(String gname) {
-        QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
-        if (gname != "" && gname != null) {
-            queryWrapper.eq("gname", gname);
-        }
+    public int selectCount(QueryWrapper<ZGoods> queryWrapper) {
         return zGoodsDao.selectCount(queryWrapper);
     }
 

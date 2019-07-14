@@ -1,5 +1,6 @@
 package com.zilansw.zilanshop.controller.tjt;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zilansw.zilanshop.commons.MessageBack;
 import com.zilansw.zilanshop.commons.PageBean;
 import com.zilansw.zilanshop.commons.UPLOAD;
@@ -43,8 +44,12 @@ public class ZGoodsController {
     @ResponseBody
     public Map<String, Object> getList(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
         Map<String, Object> map = new HashMap<>();
+        QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
         List<ZGoods> iPage = zGoodsService.getList(gname, ((pageIndex - 1) * limit), limit);
-        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(gname));
+        if (gname != "" && gname != null) {
+            queryWrapper.eq("gname", gname);
+        }
+        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(queryWrapper));
         map.put("data", iPage);
         map.put("pageBean", pageBean);
         return map;

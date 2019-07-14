@@ -9,6 +9,7 @@
         <result column="create_time" property="createTime"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="gdetail" jdbcType="LONGVARCHAR" property="gdetail"/>
+        <result column="sales_volume" property="salesVolume"></result>
         <association property="goodstype" column="gtypeid" select="queryZGtype"></association>
         <association property="stock" column="gid" select="queryZStock"></association>
         <collection property="zEvaluationList" column="gid" select="queryZEvaluationList"></collection>
@@ -41,6 +42,7 @@
     <resultMap id="ZUserMap" type="com.zilansw.zilanshop.pojo.ZUser">
         <id column="uid" jdbcType="INTEGER" property="uid"/>
         <result column="username" property="username"/>
+        <result column="headimg" property="headimg"/>
     </resultMap>
 
     <resultMap id="ZGoodsimageMap" type="com.zilansw.zilanshop.pojo.ZGoodsimage">
@@ -57,7 +59,7 @@
         <result column="create_time" jdbcType="DOUBLE" property="createTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-    gid, gtypeid, gname, price, create_time, `status`,`gdetail`,create_time
+    gid, gtypeid, gname, price, create_time, `status`,`gdetail`,sales_volume
   </sql>
     <insert id="insertGood" useGeneratedKeys="true" keyProperty="gid" parameterType="com.zilansw.zilanshop.pojo.ZGoods">
         insert into z_goods
@@ -122,7 +124,7 @@
   </select>
 
     <select id="queryZUser" resultMap="ZUserMap">
-        select UID, USERNAME from z_user where uid=#{uid}
+        select UID, USERNAME,headimg from z_user where uid=#{uid}
     </select>
 
     <select id="queryEvaluationimages" resultMap="ZEvaluationimageMap">
@@ -135,12 +137,24 @@
         select <include refid="Base_Column_List"></include> from z_goods
         <where>
             <if test="map.gname!=null and map.gname!=''">
-                and gname = #{map.gname}
+                and gname like #{map.gname}
             </if>
             <if test="map.gtypeid!=null">
                 and gtypeid = #{map.gtypeid}
             </if>
         </where>
+        <if test="map.price=='asc'">
+            ORDER BY price asc
+        </if>
+        <if test="map.price=='desc'">
+            ORDER BY price desc
+        </if>
+        <if test="map.salesVolume=='asc'">
+            ORDER BY sales_volume asc
+        </if>
+        <if test="map.salesVolume=='desc'">
+            ORDER BY sales_volume desc
+        </if>
         limit #{pageIndex},#{limit}
     </select>
     <select id="getById" resultMap="BaseResultMap">

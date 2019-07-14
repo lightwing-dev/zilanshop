@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zilansw.zilanshop.dao.ZCartDao">
+    <resultMap id="BaseResultMap" type="com.zilansw.zilanshop.pojo.ZCart">
+        <id column="cid" property="cid"/>
+        <id column="uid" property="uid"/>
+        <id column="gid" property="gid"/>
+        <id column="num" property="num"/>
+        <id column="create_time" property="createTime"/>
+        <association property="zUser" column="uid" select="queryZUer"></association>
+        <association property="zGoods" column="gid" select="queryZGood"></association>
+    </resultMap>
+
+    <resultMap id="ZGoodsMap" type="com.zilansw.zilanshop.pojo.ZGoods">
+        <id column="gid" jdbcType="INTEGER" property="gid"/>
+        <result column="gtypeid" jdbcType="INTEGER" property="gtypeid"/>
+        <result column="gname" jdbcType="VARCHAR" property="gname"/>
+        <result column="price" jdbcType="DOUBLE" property="price"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="gdetail" jdbcType="LONGVARCHAR" property="gdetail"/>
+        <collection property="zGoodsimage" column="gid" select="queryZGoodsimage"></collection>
+    </resultMap>
+
+    <resultMap id="ZGoodstypeMap" type="com.zilansw.zilanshop.pojo.ZGoodstype">
+        <id column="gtypeid" jdbcType="INTEGER" property="gtypeid"/>
+        <result column="gtypename" jdbcType="VARCHAR" property="gtypename"/>
+        <result column="iconimgpath" jdbcType="VARCHAR" property="iconimgpath"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <resultMap id="ZUserMap" type="com.zilansw.zilanshop.pojo.ZUser">
+        <id column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="username" property="username"/>
+        <result column="headimg" property="headimg"/>
+    </resultMap>
+
+    <resultMap id="ZGoodsimageMap" type="com.zilansw.zilanshop.pojo.ZGoodsimage">
+        <id column="giid" property="giid"/>
+        <result column="gid" property="gid"/>
+        <result column="imgpath" property="imgpath"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    <insert id="add">
+        insert into z_cart(uid,gid,create_time) value (#{zCart.uid},#{zCart.gid},#{zCart.createTime});
+    </insert>
+
+    <select id="queryZUer" resultMap="ZUserMap">
+        select uid,username,headimg from z_user where uid=#{uid}
+    </select>
+
+    <select id="queryZGood" resultMap="ZGoodsMap">
+        select * from z_goods where gid=#{gid}
+    </select>
+
+    <select id="queryZGoodsimage" resultMap="ZGoodsimageMap">
+        select * from z_goodsimage where gid=#{gid}
+  </select>
+    <select id="selectPage" resultMap="BaseResultMap">
+        select * from z_cart
+        where uid = #{uid}
+        limit #{pageIndex},#{limit}
+    </select>
+</mapper>
