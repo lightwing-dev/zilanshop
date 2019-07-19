@@ -55,39 +55,110 @@ public class ZGoodstypeController {
     }
 
     /**
+     * 查询所有商品分类菜单
+     */
+    @RequestMapping("selectType")
+    @ResponseBody
+    public Map<String, Object> selectType() {
+        Map<String, Object> map = new HashMap<>();
+        QueryWrapper<ZGoodstype> oneQueryWrapper = new QueryWrapper<>();
+        oneQueryWrapper.eq("parentid", 0);
+        //查询所有父级菜单
+        List<ZGoodstype> oneList = zGoodstypeService.selectByPid(oneQueryWrapper);
+        String onelevel = "";
+        for (ZGoodstype one : oneList) {
+            onelevel = onelevel + one.getGtypeid() + ",";
+        }
+        //查询所有二级菜单
+        List<ZGoodstype> towList = zGoodstypeService.getByPid(onelevel.substring(0, (onelevel.length() - 1)));
+        String twolevel = "";
+        for (ZGoodstype tow : towList) {
+            twolevel = twolevel + tow.getGtypeid() + ",";
+        }
+        //查询所有三级级菜单
+        List<ZGoodstype> threeList = zGoodstypeService.getByPid(twolevel.substring(0, (twolevel.length() - 1)));
+        map.put("oneList", oneList);
+        map.put("towList", towList);
+        map.put("threeList", threeList);
+        return map;
+    }
+
+
+    /**
+     * 分页查询
+     *
+     * @return
+     */
+    @RequestMapping("getById")
+    @ResponseBody
+    public Map<String, Object> getById(Integer gtypeid) {
+        Map<String, Object> map = new HashMap<>();
+        ZGoodstype one = zGoodstypeService.selectById(gtypeid);
+        if (one != null) {
+            if (one.getParentid() != 0) {//判断是否为二级菜单
+                ZGoodstype two = zGoodstypeService.selectById(one.getParentid());
+                if (two != null) {
+                    if (two.getParentid() != 0) {//为三级菜单
+                        ZGoodstype three = zGoodstypeService.selectById(two.getParentid());
+                        if (three != null) {
+                            map.put("three", two);
+                            map.put("two", three);
+                            map.put("data", one);
+                        }
+                    } else {
+                        map.put("two", two);
+                    }
+                }
+            } else {
+                map.put("one", one);
+            }
+        }
+        return map;
+    }
+
+
+    /**
      * 根据父级编号查询
      *
      * @return
      */
     @RequestMapping("selectByParentId")
     @ResponseBody
-    public Map<String, Object> selectById() {
+    public Map<String, Object> selectById(Integer parentid) {
         Map<String, Object> map = new HashMap<>();
         //查询列表数据
-        List<ZGoodstype> menuList = null;
+//        List<ZGoodstype> menuList = null;
         QueryWrapper<ZGoodstype> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.eq("parentid", 0);
-        menuList = zGoodstypeService.getAllMenuList(null,queryWrapper);
-        List<ZGoodstype> menus = TreeParser.getTreeList("0", menuList);
-        for (ZGoodstype str : menus) {
-            if (str.getChildren().size() != 0) {
-                for (ZGoodstype str1 : str.getChildren()) {
-                    if (str1.getChildren().size() != 0) {
-                        for (ZGoodstype str2 : str1.getChildren()) {
-                            if (str2.getChildren().size() != 0) {
-                            } else {
-                                str2.setChildren(null);
-                            }
-                        }
-                    } else {
-                        str1.setChildren(null);
-                    }
-                }
-            } else {
-                str.setChildren(null);
-            }
+
+        if (parentid != null) {
+            queryWrapper.eq("parentid", parentid);
+        } else {
+            queryWrapper.eq("parentid", 0);
         }
-        map.put("data", menus);
+        List<ZGoodstype> menuList = zGoodstypeService.selectByPid(queryWrapper);
+
+//
+//        menuList = zGoodstypeService.getAllMenuList(null,queryWrapper);
+//        List<ZGoodstype> menus = TreeParser.getTreeList("0", menuList);
+//        for (ZGoodstype str : menus) {
+//            if (str.getChildren().size() != 0) {
+//                for (ZGoodstype str1 : str.getChildren()) {
+//                    if (str1.getChildren().size() != 0) {
+//                        for (ZGoodstype str2 : str1.getChildren()) {
+//                            if (str2.getChildren().size() != 0) {
+//                            } else {
+//                                str2.setChildren(null);
+//                            }
+//                        }
+//                    } else {
+//                        str1.setChildren(null);
+//                    }
+//                }
+//            } else {
+//                str.setChildren(null);
+//            }
+//        }
+        map.put("data", menuList);
         return map;
     }
 

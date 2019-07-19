@@ -52,6 +52,27 @@ public class GoodstypeController {
 
 
     /**
+     * 根据父编号查询分类
+     *
+     * @return
+     */
+    @RequestMapping("selectType")
+    @ResponseBody
+    public Map<String, Object> selectType() {
+        Map<String, Object> map = new HashMap<>();
+        QueryWrapper<ZGoodstype> oneQueryWrapper = new QueryWrapper<>();
+        oneQueryWrapper.eq("parentid", 0);
+        List<ZGoodstype> iPage = zGoodstypeService.selectByPid(oneQueryWrapper);
+        QueryWrapper<ZGoodstype> queryWrapper = new QueryWrapper<>();
+        for (ZGoodstype str:iPage) {
+
+        }
+        map.put("oneLevel",iPage);
+        return map;
+    }
+
+
+    /**
      * 根据父级编号查询
      *
      * @return

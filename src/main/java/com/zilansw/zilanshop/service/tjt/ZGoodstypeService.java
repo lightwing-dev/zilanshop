@@ -75,6 +75,23 @@ public class ZGoodstypeService {
         return zGoodstypeDao.selectById(gtypeid);
     }
 
+    /**
+     * 根据父编号查询
+     * @param queryWrapper
+     * @return
+     */
+    public List<ZGoodstype> selectByPid(QueryWrapper<ZGoodstype> queryWrapper) {
+        return zGoodstypeDao.selectList(queryWrapper);
+    }
+
+    /**
+     * 根据父编号查询
+     * @param pid
+     * @return
+     */
+    public List<ZGoodstype> getByPid(Object pid) {
+        return zGoodstypeDao.getByPid(pid);
+    }
 
     /**
      * 获取所有商品分类列表
@@ -105,7 +122,6 @@ public class ZGoodstypeService {
         if (menuIdList == null) {
             return menuList;
         }
-
         List<ZGoodstype> userMenuList = new ArrayList<>();
         for (ZGoodstype menu : menuList) {
             if (menuIdList.contains(menu.getGtypeid())) {

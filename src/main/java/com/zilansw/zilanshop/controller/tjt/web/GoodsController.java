@@ -5,13 +5,16 @@ import com.zilansw.zilanshop.commons.MessageBack;
 import com.zilansw.zilanshop.commons.PageBean;
 import com.zilansw.zilanshop.pojo.ZGoods;
 import com.zilansw.zilanshop.pojo.ZGoodsimage;
+import com.zilansw.zilanshop.pojo.ZGoodstype;
 import com.zilansw.zilanshop.service.tjt.ZGoodsService;
+import com.zilansw.zilanshop.service.tjt.ZGoodstypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +30,9 @@ public class GoodsController {
     @Autowired
     private ZGoodsService zGoodsService;
 
+    @Autowired
+    private ZGoodstypeService zGoodstypeService;
+
     /**
      * 分页查询
      *
@@ -35,45 +41,62 @@ public class GoodsController {
     @RequestMapping("getByName")
     @ResponseBody
     public Map<String, Object> selectByWeb(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "8") Integer limit, String gname, Integer gtypeid, String price, String salesVolume) {
-        QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
         Map<String, Object> reulst = new HashMap<>();
         Map<String, Object> map = new HashMap<>();
+        QueryWrapper<ZGoodstype> zGoodstypeQueryWrapper = new QueryWrapper<>();
         if (gname != null && gname != "") {
             map.put("gname", "%" + gname + "%");
         }
         if (gtypeid != null) {
-            map.put("gtypeid", gtypeid);
-        }
-        if (price != null && price != "") {
-            map.put("price", price);
-        }
-        if (salesVolume != null && salesVolume != "") {
-            map.put("salesVolume", salesVolume);
-        }
-        List<ZGoods> iPage = zGoodsService.selectByWeb(map, ((pageIndex - 1) * limit), limit);
-        if (gname != "" && gname != null) {
-            queryWrapper.like("gname", gname);
-        }
-        if (gtypeid != null) {
-            queryWrapper.eq("gtypeid", gtypeid);
+            zGoodstypeQueryWrapper.eq("parentid", gtypeid);
+            List<ZGoodstype> oneLevelList = zGoodstypeService.selectByPid(zGoodstypeQueryWrapper);
+            if (oneLevelList.size() != 0) {
+                QueryWrapper<ZGoodstype> oneQueryWrapper = new QueryWrapper<>();
+                for (ZGoodstype one : oneLevelList) {
+                    oneQueryWrapper.in("parentid", one.getGtypeid(), gtypeid);
+                }
+                List<ZGoodstype> twoLevelList = zGoodstypeService.selectByPid(oneQueryWrapper);
+                if (twoLevelList.size() != 0) {
+//                    List<Long> str = new ArrayList<>();
+                    String str = "";
+                    str += gtypeid + ",";
+                    for (ZGoodstype two : twoLevelList) {
+                        str = str + two.getGtypeid() + ",";
+                    }
+                    map.put("gtypeid", str.substring(0,(str.length()-1)));
+                }else{
+                    String str = "";
+                    str += gtypeid + ",";
+                    for (ZGoodstype one : oneLevelList) {
+                        str = str + one.getGtypeid() + ",";
+                    }
+                }
+
+            }else{
+                map.put("gtypeid", gtypeid);
+            }
         }
         if (price.equals("desc")) {
             reulst.put("price", "asc");
-            queryWrapper.orderByDesc("price");
+            map.put("price","desc");
         }
         if (price.equals("asc")) {
             reulst.put("price", "desc");
-            queryWrapper.orderByAsc("price");
+            map.put("price","asc");
+//            queryWrapper.orderByAsc("price");
         }
         if (salesVolume.equals("desc")) {
             reulst.put("salesVolume", "asc");
-            queryWrapper.orderByDesc("sales_volume");
+            map.put("salesVolume","desc");
+//            queryWrapper.orderByDesc("sales_volume");
         }
         if (salesVolume.equals("asc")) {
             reulst.put("salesVolume", "desc");
-            queryWrapper.orderByAsc("sales_volume");
+            map.put("salesVolume","asc");
+//            queryWrapper.orderByAsc("sales_volume");
         }
-        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(queryWrapper));
+        List<ZGoods> iPage = zGoodsService.selectByWeb(map, ((pageIndex - 1) * limit), limit);
+        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(map));
         for (ZGoods str : iPage) {
             if (str.getZGoodsimage().size() != 0) {
                 for (ZGoodsimage str1 : str.getZGoodsimage()) {
@@ -96,16 +119,38 @@ public class GoodsController {
     public Map<String, Object> getByTypeId(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "8") Integer limit, Integer gtypeid) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> reulst = new HashMap<>();
-        QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<ZGoodstype> zGoodstypeQueryWrapper = new QueryWrapper<>();
         if (gtypeid != null) {
-            map.put("gtypeid", gtypeid);
+            zGoodstypeQueryWrapper.eq("parentid", gtypeid);
+            List<ZGoodstype> oneLevelList = zGoodstypeService.selectByPid(zGoodstypeQueryWrapper);
+            if (oneLevelList.size() != 0) {
+                QueryWrapper<ZGoodstype> oneQueryWrapper = new QueryWrapper<>();
+                for (ZGoodstype one : oneLevelList) {
+                    oneQueryWrapper.in("parentid", one.getGtypeid(), gtypeid);
+                }
+                List<ZGoodstype> twoLevelList = zGoodstypeService.selectByPid(oneQueryWrapper);
+                if (twoLevelList.size() != 0) {
+//                    List<Long> str = new ArrayList<>();
+                    String str = "";
+                    str += gtypeid + ",";
+                    for (ZGoodstype two : twoLevelList) {
+                        str = str + two.getGtypeid() + ",";
+                    }
+                    map.put("gtypeid", str.substring(0,(str.length()-1)));
+                }else{
+                    String str = "";
+                    str += gtypeid + ",";
+                    for (ZGoodstype one : oneLevelList) {
+                        str = str + one.getGtypeid() + ",";
+                    }
+                }
+
+            }else{
+                map.put("gtypeid", gtypeid);
+            }
         }
         List<ZGoods> iPage = zGoodsService.selectByWeb(map, ((pageIndex - 1) * limit), limit);
-
-        if (gtypeid != null) {
-            queryWrapper.eq("gtypeid", gtypeid);
-        }
-        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(queryWrapper));
+        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(map));
         for (ZGoods str : iPage) {
             if (str.getZGoodsimage().size() != 0) {
                 for (ZGoodsimage str1 : str.getZGoodsimage()) {

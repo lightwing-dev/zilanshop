@@ -63,7 +63,6 @@ public class TreeParser{
         if(childList.size()==0){
             return null;
         }
-
         return childList;
     }
 }

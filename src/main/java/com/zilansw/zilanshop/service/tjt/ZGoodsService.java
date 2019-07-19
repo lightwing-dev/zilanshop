@@ -85,8 +85,8 @@ public class ZGoodsService {
         return zGoodsDao.selectByWeb(map, pageIndex, limit);
     }
 
-    public int selectCount(QueryWrapper<ZGoods> queryWrapper) {
-        return zGoodsDao.selectCount(queryWrapper);
+    public int selectCount(Map<String,Object> map) {
+        return zGoodsDao.selectCount(map);
     }
 
     public ZGoods selectById(Integer gid) {

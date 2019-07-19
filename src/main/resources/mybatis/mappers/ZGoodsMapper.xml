@@ -140,7 +140,7 @@
                 and gname like #{map.gname}
             </if>
             <if test="map.gtypeid!=null">
-                and gtypeid = #{map.gtypeid}
+                and gtypeid in (${map.gtypeid})
             </if>
         </where>
         <if test="map.price=='asc'">
@@ -170,6 +170,29 @@
         ORDER BY sales_volume DESC
         limit #{pageIndex},#{limit}
 
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1) from z_goods
+        <where>
+            <if test="map.gname!=null and map.gname!=''">
+                and gname like #{map.gname}
+            </if>
+            <if test="map.gtypeid!=null">
+                and gtypeid in (${map.gtypeid})
+            </if>
+        </where>
+        <if test="map.price=='asc'">
+            ORDER BY price asc
+        </if>
+        <if test="map.price=='desc'">
+            ORDER BY price desc
+        </if>
+        <if test="map.salesVolume=='asc'">
+            ORDER BY sales_volume asc
+        </if>
+        <if test="map.salesVolume=='desc'">
+            ORDER BY sales_volume desc
+        </if>
     </select>
 
 

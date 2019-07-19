@@ -44,12 +44,13 @@ public class ZGoodsController {
     @ResponseBody
     public Map<String, Object> getList(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "5") Integer limit, String gname) {
         Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map1 = new HashMap<>();
         QueryWrapper<ZGoods> queryWrapper = new QueryWrapper<>();
         List<ZGoods> iPage = zGoodsService.getList(gname, ((pageIndex - 1) * limit), limit);
         if (gname != "" && gname != null) {
-            queryWrapper.eq("gname", gname);
+            map1.put("gname", "%"+gname+"%");
         }
-        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(queryWrapper));
+        PageBean pageBean = new PageBean(pageIndex, limit, zGoodsService.selectCount(map1));
         map.put("data", iPage);
         map.put("pageBean", pageBean);
         return map;

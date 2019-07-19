@@ -11,4 +11,7 @@
     <sql id="Base_Column_List">
     gtypeid, gtypename, iconimgpath, description,parentid
   </sql>
+    <select id="getByPid" resultMap="BaseResultMap">
+        select * from z_goodstype where parentid in (${pid})
+    </select>
 </mapper>
